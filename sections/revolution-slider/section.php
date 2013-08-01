@@ -477,7 +477,7 @@ class TMSORevolution extends PageLinesSection
 					array(
 						'key' => 'tmrv_height',
 						'type' => 'text',
-						'label' => 'Width',
+						'label' => 'Height',
 					)
 				)
 			),
