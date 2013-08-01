@@ -119,29 +119,6 @@ class CollapserTmSo extends PageLinesSection
             });
         </script>
 
-        <style type="text/css">
-
-            .collapser-block<?php echo $clone_id?> .collapser-heading,
-            <?php echo $this->dmshify() ?> .collapser-heading{
-                background-color:  <?php echo $item_back ?>
-            }
-            .collapser-block<?php echo $clone_id?> .collapser-heading .collapser-toggle
-            <?php echo $this->dmshify() ?> .collapser-heading .collapser-toggle{
-                color: <?php echo $item_title_color ?>;
-            }
-            .collapser-block<?php echo $clone_id?> .collapser-heading .collapser-toggle:hover,
-            <?php echo $this->dmshify() ?> .collapser-heading .collapser-toggle:hover,
-                /*color: <?php echo $item_title_color_hover ?> !important;*/
-                background-color: <?php echo $item_back_hover ?>
-            }
-
-            .collapser-block<?php echo $clone_id?> .collapser-inner p,
-            <?php echo $this->dmshify() ?> .collapser-inner p{
-                color: <?php echo $content_color ?>;
-            }
-
-
-        </style>
 
     <?php
     }
@@ -364,7 +341,7 @@ class CollapserTmSo extends PageLinesSection
                 'exp'           => 'Indicates where the thumbnail images will be displayed. If you want to use a full  width tabs use the "Do not use thumbnails" option'
             ),
 
-            'tm_collapser_item_background'  => array(
+            /*'tm_collapser_item_background'  => array(
                 'inputlabel'    => __( 'Item highlight', $this->domain ),
                 'type' => 'colorpicker',
                 'title' => __( 'Item highlight', $this->domain ),
@@ -393,7 +370,7 @@ class CollapserTmSo extends PageLinesSection
                 'type' => 'colorpicker',
                 'title' => __( 'Content Text', $this->domain ),
                 'default' => pl_hashify( pl_text_color() )
-            )
+            )*/
         );
 
         $settings = array(
