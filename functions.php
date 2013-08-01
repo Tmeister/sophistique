@@ -58,17 +58,11 @@ class Sophistique
 		    'name'  => 'Sophistique',
 		    'icon'  => 'icon-pagelines',
 		    'opts'  => array(
-		        array(
-		        	'type'          => 'image_upload',
-		            'title'         => 'Site Logotype',
-		            'key'           => 'so_logotype',
-		            'label'         => 'Please select the site logotype.',
-		        ),
+		        
 		    )
 		);
 		pl_add_theme_tab( $soptions );
 	}
-
 }
 
 new Sophistique;

@@ -7,6 +7,7 @@ Version: 1.0
 Description: Inline Description
 Class Name: SOContactBar
 Filter: full-width
+V3: true
 */
 
 /*
@@ -84,71 +85,57 @@ class SOContactBar extends PageLinesSection {
 	<?php
  	}
 
- 	/**
-	 *
-	 * Section Page Options
-	 *
-	 * Section optionator is designed to handle section options.
-	 */
-	function section_optionator( $settings ){
-
-		$settings = wp_parse_args($settings, $this->optionator_default);
-		$opt_array = array(
-
-			'tm_cb_phone' =>	array(
-				'type'			=> 'multi_option',
-				'title'			=> __('First Information Box', $this->domain),
+ 	function section_opts()
+	{
+		$opts = array(
+			array(
+				'key' => 'tm_cb_phone',
+				'type' => 'multi',
+				'title'			=> __('Left Information Box', $this->domain),
 				'shortexp'		=> __('Please fill the follow fields.', $this->domain),
-				'selectvalues'	=> array(
-					'tm_cb_first_icon'	=> array(
-						'inputlabel'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://twitter.github.com/bootstrap/base-css.html#icons">bootstrap site.</a>', $this->domain ),
+				'opts' => array(
+					array(
+						'key' => 'tm_cb_first_icon',
+						'label'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://twitter.github.com/bootstrap/base-css.html#icons">bootstrap site.</a>', $this->domain ),
 						'type'         	=> 'select',
-						'selectvalues' 	=> $this->get_icons_select(),
+						'opts' 	=> $this->get_icons_select(),
 					),
-					'tm_cb_first_label'	=> array(
-						'type' => 'text',
-						'inputlabel' 	=> __( 'Enter the information to show in the information text, eg. "Call Us: (001) 030-234-567-890"', $this->domain ),
+					array(
+						'key' => 'tm_cb_first_label',
+ 						'type' => 'text',
+						'label' 	=> __( 'Enter the information to show in the information text, eg. "Call Us: (001) 030-234-567-890"', $this->domain ),
 					),
-				),
+				)
 			),
-
-			'tm_cb_email' =>	array(
-				'type'			=> 'multi_option',
-				'title'			=> __('Second Information Box', $this->domain),
+			array(
+				'key' => 'tm_cb_email',
+				'type' => 'multi',
+				'title'			=> __('Right Information Box', $this->domain),
 				'shortexp'		=> __('Please fill the follow fields.', $this->domain),
-				'selectvalues'	=> array(
-					'tm_cb_sec_icon'	=> array(
-						'inputlabel'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://twitter.github.com/bootstrap/base-css.html#icons">bootstrap site.</a>', $this->domain ),
-						'exp'      		=> 'All the available icons can be see at the ',
+				'opts' => array(
+					array(
+						'key' => 'tm_cb_sec_icon',
+						'label'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://twitter.github.com/bootstrap/base-css.html#icons">bootstrap site.</a>', $this->domain ),
 						'type'         	=> 'select',
-						'selectvalues' 	=> $this->get_icons_select(),
+						'opts' 	=> $this->get_icons_select(),
 					),
-					'tm_cb_sec_label'	=> array(
-						'type' => 'text',
-						'inputlabel' 	=> __( 'Enter the information to show in the information text, eg. "youremail@domain.com"', $this->domain ),
+					array(
+						'key' => 'tm_cb_sec_label',
+ 						'type' => 'text',
+						'label' 	=> __( 'Enter the information to show in the information text, eg. "youremail@domain.com"', $this->domain ),
 					),
-				),
+				)
 			),
-
-			'tm_cb_social' =>	array(
-				'type'			=> 'multi_option',
+			array(
+				'key' => 'tm_cb_social',
+				'type'			=> 'multi',
 				'title'			=> __('Social Sites URL', $this->domain),
-				'shortexp'		=> __('In the follow fields please, enter the social URL, if the URL field is empty, nothing will show.', $this->domain),
-				'selectvalues'	=> $this->get_social_fields()
+				'label'		=> __('In the follow fields please, enter the social URL, if the URL field is empty, nothing will show.', $this->domain),
+				'opts'	=> $this->get_social_fields()
 			),
-
 		);
-		$settings = array(
-			'id' 		=> $this->id.'_meta',
-			'name' 		=> $this->name,
-			'icon' 		=> $this->icon,
-			'clone_id'	=> $settings['clone_id'],
-			'active'	=> $settings['active']
-		);
-
-		register_metatab($settings, $opt_array);
+		return $opts;
 	}
-
 
 	function get_icons_select()
 	{
@@ -167,7 +154,8 @@ class SOContactBar extends PageLinesSection {
 		foreach ($this->get_valid_social_sites() as $social => $name)
 		{
 			$out[$name . '-url'] = array(
-				'inputlabel' => __(ucfirst($name)),
+				'key' => $name . '-url',
+				'label' => __(ucfirst($name)),
 				'type' => 'text'
 			);
 		}

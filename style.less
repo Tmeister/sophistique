@@ -7,7 +7,7 @@
 
 h1, h2, h3, h4, h5, h6, .site-title {
 	font-weight: normal;
-	font-weight: 200 !important;
+	font-weight: 200;
 }
 
 a{
@@ -23,5 +23,97 @@ a{
 ** Content Area
 ******************************************************************************/
 #dynamic-content{
-	background: #fff;
+	background: @pl-base;
 }
+
+.section-icallout{
+	.pl-section-pad{
+		background-color: #ffffff;
+		.border-radius(5px);
+	}
+	.format-inline{
+		.icallout-head{
+			font-size: 16px;
+			width: 80%;
+			display:  inline-table !important;
+			text-align: left;
+			font-weight: 400;
+			margin-top: 13px;
+		}
+	}
+}
+
+.multi-post{
+	.hentry{
+		background: #fff;
+		.box-shadow(0 1px 3px rgba(0,0,0, .2));
+		.hentry-pad{
+			padding: 10px !important;
+		}
+	}	
+} 
+
+.single-post,
+.section-wp-comments{
+	background: #fff;
+	.box-shadow(0 1px 3px rgba(0,0,0, .2));
+}
+
+
+
+
+//.ibox.top-aligned .ibox-media .media-type-image
+.ibox{
+	.ibox-text{
+		h4{
+			text-transform: uppercase;
+			font-weight: 700
+		}
+	}
+}
+
+.ibox{
+	border-bottom: 5px solid #ccc;
+	background-color: #fff;
+	
+	&.top-aligned{
+		.transition( all 0.3s ease );	
+		&:hover{
+			border-bottom: 5px solid @pl-link;
+			.scale(1.05);
+			.transition( all 0.3s ease );
+		}
+	}
+	&:hover{
+		border-bottom: 5px solid @pl-link;
+	}
+	.ibox-media{
+		max-width: 100% !important;
+		.media-type-image{
+			padding: 28% 0 !important;
+		}
+		.ibox-icon-border{
+			.border-radius(0) !important;
+		}
+	}
+}
+
+.ibox.left-aligned {
+	.ibox-media{
+		.ibox-icon-border{
+			background-color: transparent;
+			margin-bottom: 0px;
+		}
+	}
+	.ibox-text{
+		padding: 10px 10px 10px 0;
+	}
+}
+
+#footer{
+	#translucent > .background( #000000 ,0.5); 
+	border-top: 3px solid #000000;
+	color:#ffffff;
+}
+
+

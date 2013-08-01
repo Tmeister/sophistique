@@ -14,6 +14,7 @@ Filter: full-width
 class TMSORevolution extends PageLinesSection
 {
 
+	
 	var $domain               = 'tmRevolution';
 	/**************************************************************************
 	* SLIDES
@@ -40,6 +41,9 @@ class TMSORevolution extends PageLinesSection
 	}
 
 	function section_head($clone_id){
+		if( !is_front_page() && !pl_draft_mode() ){
+ 			return;
+ 		}
 		global $post, $pagelines_ID;
 		$oset            = array('post_id' => $pagelines_ID, 'clone_id' => $clone_id);
 		$tmrv_width      = ( $this->opt('tmrv_width', $oset) ) ? $this->opt('tmrv_width', $oset) : '900';
@@ -81,6 +85,9 @@ class TMSORevolution extends PageLinesSection
 	}
 
  	function section_template( $clone_id = null ) {
+ 		if( !is_front_page() && !pl_draft_mode()  ){
+ 			return;
+ 		}
 		global $post, $pagelines_ID;
 		$oset         = array('post_id' => $pagelines_ID, 'clone_id' => $clone_id);
 		$tmrv_items   = ( $this->opt('tmrv_items', $oset) ) ? $this->opt('tmrv_items', $oset) : '10';
@@ -454,78 +461,77 @@ class TMSORevolution extends PageLinesSection
 
 	}
 
-	function section_optionator( $settings ){
-
-		$settings = wp_parse_args($settings, $this->optionator_default);
-		$opt_array = array(
-			'tmrv_size' 	=> array(
-				'type'         => 'text_multi',
-				'inputlabel'   => '',
-				'title'        => __('Size', $this->domain) ,
-				'shortexp'     => __('Configure the size for your slider.', $this->domain) ,
-				'exp'          => __('Fully resizable, you can set any size.', $this->domain) ,
-				'selectvalues' => array(
-					'tmrv_width'  => array('inputlabel'=> __( 'Width', $this->domain )),
-					'tmrv_height' => array('inputlabel'=> __( 'Height', $this->domain ))
-				),
+	function section_opts(){
+		$opts = array(
+			array(
+				'key' => 'tmrv_size',
+				'type'         => 'multi',
+				'title'        => __('Slider Size', $this->domain) ,
+				'help'          => __('Fully resizable, you can set any size.', $this->domain),
+				'opts' => array(
+					array(
+						'key' => 'tmrv_width',
+						'type' => 'text',
+						'label' => 'Width',
+					),
+					array(
+						'key' => 'tmrv_height',
+						'type' => 'text',
+						'label' => 'Width',
+					)
+				)
 			),
-			'tmrv_set' 	=> array(
+			array(
+				'key' => 'tmrv_set',
 				'type' 			=> 'select_taxonomy',
 				'taxonomy_id'	=> $this->tax_id,
-				'title' 		=> __('Set', $this->domain),
-				'shortexp'		=> __('Select the set you want to show.', $this->domain),
-				'inputlabel'	=> __('Set', $this->domain),
-				'exp' 			=> __('If don\'t select a set or you have not created a set, the slider will show all slides', $this->domain)
+				'title' 		=> __('Sliders Set', $this->domain),
+				'help'		=> __('Select the set you want to show.', $this->domain),
+				'ref' 			=> __('If don\'t select a set or you have not created a set, the slider will show all slides', $this->domain)
 			),
-			'tmrv_items' => array(
+			array(
+				'key' => 'tmrv_items',
 				'type' 			=> 'count_select',
-				'inputlabel'	=> __('Number of Slides', $this->domain),
+				'label'	=> __('Number of Slides', $this->domain),
 				'title' 		=> __('Number of Slides', $this->domain),
-				'shortexp'		=> __('Default value is 10', $this->domain),
-				'exp'			=> __('The amount of slides to show.', $this->domain),
+				'help'		=> __('Default value is 10', $this->domain),
 				'count_start'	=> 2,
  				'count_number'	=> 20,
 			),
-			'tmrv_time' => array(
+			array(
+				'key' => 'tmrv_time',
 				'type' 			=> 'select',
-				'inputlabel'	=> __('Delay ', $this->domain),
+				'label'			=> __('Delay ', $this->domain),
 				'title' 		=> __('Slide delay time', $this->domain),
 				'shortexp'		=> __('Default value is 8000', $this->domain),
-				'exp'			=> __('The time one slide stays on the screen in Milliseconds.', $this->domain),
-				'selectvalues' => $this->getMasterSpeedOptions(20, 1000)
+				'help'			=> __('The time one slide stays on the screen in Milliseconds.', $this->domain),
+				'opts'			=> $this->getMasterSpeedOptions(20, 1000)
 			),
-			'tmrv_shadow' 	=> array(
+			array(
+				'key' => 'tmrv_shadow',
 				'type'       => 'check',
-				'inputlabel' => __('Disable shadow?', $this->domain),
+				'label' => __('Disable shadow?', $this->domain),
 				'title'      => __('Shadow', $this->domain) ,
-				'shortexp'   => __('Set whether to use the shadow of the slider', $this->domain) ,
-				'exp'        => __('You can disable the use of shadows in the slider if desired.', $this->domain)
+				'help'   => __('Set whether to use the shadow of the slider', $this->domain) 
 			),
-			'tmrv_touch' 	=> array(
+			array(
+				'key' => 'tmrv_touch',
 				'type'       => 'check',
-				'inputlabel' => __('Disable touch support for mobiles?', $this->domain),
+				'label' => __('Disable touch support for mobiles?', $this->domain),
 				'title'      => __('Touch Wipe', $this->domain) ,
-				'shortexp'   => __('Set whether to use the touch support for mobiles', $this->domain) ,
-				'exp'        => __('You can disable the use of touch wipe support for mobiles in the slider if desired.', $this->domain)
+				'help'   => __('Set whether to use the touch support for mobiles', $this->domain)
+
 			),
-			'tmrv_pause_over' 	=> array(
+			array(
+				'key' => 'tmrv_pause_over',
 				'type'       => 'check',
 				'inputlabel' => __('Disable Pause on hover?', $this->domain),
 				'title'      => __('Pause on hover', $this->domain) ,
-				'shortexp'   => __('Set whether to use the pause on hover feature', $this->domain) ,
-				'exp'        => __('You can disable the pause on hover if desired.', $this->domain)
-			),
-		);
+				'help'   => __('Set whether to use the pause on hover feature', $this->domain)
 
-		$settings = array(
-			'id' 		=> $this->id.'_meta',
-			'name' 		=> $this->name,
-			'icon' 		=> $this->icon,
-			'clone_id'	=> $settings['clone_id'],
-			'active'	=> $settings['active']
+			)
 		);
-
-		register_metatab($settings, $opt_array);
+		return $opts;
 	}
 
 	function post_type_slider_setup()
@@ -660,4 +666,4 @@ class TMSORevolution extends PageLinesSection
 	}
 
 
-} /* End of section class' => array('name' => __('No closing php tag needed */
+}

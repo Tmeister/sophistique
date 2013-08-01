@@ -19,32 +19,32 @@ class TMSOMenu extends PageLinesSection {
 
 	}
 
- 	function section_template( $clone_id = null )
+ 	function section_template()
  	{
-		if( !has_nav_menu('primary')  ){
-	            echo setup_section_notify($this, 'Please, set up the "Primary Website Navigation" to show it in this section.', get_admin_url(). 'nav-menus.php', 'Configure Menu');
-	            return;
-	        }
-
+		$menu = ( $this->opt( 'tm_sm_menu' ) ) ? $this->opt( 'tm_sm_menu' ) : null;
 	    ?>
 	    	<div class="pl-content">
 		    	<div class="row somenu-container">
 		    		<div class="span3">
-		    			<img src="<?php echo pl_setting('so_logotype') ?>" alt="" data-sync="so_logotype">
+		    			<img src="<?php echo $this->opt('so_logotype') ?>" alt="" data-sync="so_logotype">
 		    		</div>
 		    		<div class="span9">
 		    			<nav class="nav-sophis">
 				            <?php
-				                wp_nav_menu(
-				                    array(
-				                        'menu_class'  => 'menu-sophis',
-				                        'container' => 'div',
-				                        'container_class' => 'nav-sophis-holder clear',
-				                        'depth' => 3,
-				                        'theme_location'=>'primary',
-				                        'walker' => new Sophistique_walker
-				                    )
-				                );
+				            	if ( is_array( wp_get_nav_menu_items( $menu ) ) || has_nav_menu( 'primary' ) ) {
+					                wp_nav_menu(
+					                    array(
+					                        'menu_class'  => 'menu-sophis',
+					                        'container' => 'div',
+					                        'container_class' => 'nav-sophis-holder clear',
+					                        'depth' => 3,
+					                        'menu' => $menu,
+					                        'walker' => new Sophistique_walker
+					                    )
+					                );
+					            }else{
+					           		$this->so_nav_fallback( 'menu-sophis', 3 );
+								}
 				            ?>
 				        </nav>
 		    		</div>
@@ -54,33 +54,43 @@ class TMSOMenu extends PageLinesSection {
 	    <?php
 	}
 
-
-	function before_section_template( $clone_id = null ){}
-
-	function after_section_template( $clone_id = null ){}
-
-	function section_optionator( $settings ){
-		$settings = wp_parse_args($settings, $this->optionator_default);
-
-		$opt_array = array(
-			'pullquote_text' 	=> array(
-				'type' 			=> 'text',
-				'inputlabel'	=> 'Pullquote Text',
-				'title' 		=> 'Pullquote Text',
-				'shortexp'		=> 'The primary quote text for your pullquote',
-			)
+	function section_opts()
+	{
+		$opts = array(
+			array(
+				'key'      => 'tm_sm_menu',
+				'type'     => 'select_menu',
+				'title'    => __('Social Sites URL', 'sophistique'),
+				'shortexp' => __('In the follow fields please, enter the social URL, if the URL field is empty, nothing will show.', 'sophistique'),
+			),
+			array(
+				'type'  => 'image_upload',
+				'title' => 'Site Logotype',
+				'key'   => 'so_logotype',
+				'label' => 'Please select the site logotype.',
+	        ),
 		);
-
-		$settings = array(
-			'id' 		=> $this->id.'_meta',
-			'name' 		=> $this->name,
-			'icon' 		=> $this->icon,
-			'clone_id'	=> $settings['clone_id'],
-			'active'	=> $settings['active']
-		);
-
-		register_metatab($settings, $opt_array);
+		return $opts;
 	}
+
+	function so_nav_fallback($class = '', $limit = 6){
+
+		$pages = wp_list_pages('echo=0&title_li=&sort_column=menu_order&depth=1');
+
+		$pages_arr = explode("\n", $pages);
+
+		$pages_out = '';
+		for($i=0; $i < $limit; $i++){
+
+			if(isset($pages_arr[$i]))
+				$pages_out .= $pages_arr[$i];
+
+		}
+
+		printf('<div class="nav-sophis-holder"><ul class="%s">%s</ul></div>', $class, $pages_out);
+	}
+
+
 } /* End of section class - No closing php tag needed */
 
 /**
