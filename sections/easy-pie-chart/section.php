@@ -117,7 +117,8 @@ class SOPieChart extends PageLinesSection {
     }
 
     function create_box_settings($opts){
-        for ($i=0; $i < $this->opt('pie_boxes'); $i++) {
+        $loopCount = ( count( $this->opt('pie_boxes') ) ) ? $this->opt('pie_boxes') : 1;
+        for ($i=0; $i < $loopCount; $i++) {
             $box = array(
                 'key' => 'pie_box_'.$i,
                 'type' =>  'multi',
