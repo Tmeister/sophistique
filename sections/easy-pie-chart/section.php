@@ -117,7 +117,7 @@ class SOPieChart extends PageLinesSection {
     }
 
     function create_box_settings($opts){
-        $loopCount = ( count( $this->opt('pie_boxes') ) ) ? $this->opt('pie_boxes') : 1;
+        $loopCount = (  $this->opt('pie_boxes') ) ? $this->opt('pie_boxes') : 1;
         for ($i=0; $i < $loopCount; $i++) {
             $box = array(
                 'key' => 'pie_box_'.$i,
@@ -148,7 +148,20 @@ class SOPieChart extends PageLinesSection {
 	function section_template(){
         $boxes = $this->opt('pie_boxes');
         if( $boxes == false){
-            return;
+        ?>
+            <div class="row">
+                <div class="span3 ?>">
+                    <div class="chart" id="chart-box-0">
+                        <div class="percentage" data-percent="95">
+                            <span>95</span>%
+                        </div>
+                        <div class="pie-label">
+                            Sample data
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php
         }
 	?>
         <div class="row">
