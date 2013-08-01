@@ -58,12 +58,6 @@ class TMSOMenu extends PageLinesSection {
 	{
 		$opts = array(
 			array(
-				'key'      => 'tm_sm_menu',
-				'type'     => 'select_menu',
-				'title'    => __('Social Sites URL', 'sophistique'),
-				'shortexp' => __('In the follow fields please, enter the social URL, if the URL field is empty, nothing will show.', 'sophistique'),
-			),
-			array(
 				'type'  => 'image_upload',
 				'title' => 'Site Logotype',
 				'key'   => 'so_logotype',
