@@ -313,7 +313,7 @@ class TMSORevolution extends PageLinesSection
 				'selectvalues' => array(
 					'text'  => array('name' => __('Text', $this->domain)),
 					'image' => array('name' => __('Image', $this->domain)),
-					'Video' => array('name' => __('Video', $this->domain)),
+					'video' => array('name' => __('Video', $this->domain)),
 				)
 			),
 			'tmrv_text' => array(
