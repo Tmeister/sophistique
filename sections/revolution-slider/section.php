@@ -160,7 +160,7 @@ class TMSORevolution extends PageLinesSection
 												echo $tmrv_text;
 												break;
 											case 'image':
-												echo "<img src='".$tmrv_image."'";
+												echo "<img src='".$tmrv_image."' />";
 												break;
 											case 'video':
 												echo "Some video....";
