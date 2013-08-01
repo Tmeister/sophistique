@@ -41,7 +41,7 @@ class SOPieChart extends PageLinesSection {
                 createChart = function(){
                     jQuery('.percentage').easyPieChart({
                         animate: 1000,
-                        size: 150,
+                        size: 200,
                         barColor: '<?php echo pl_hashify( $bar_color ) ?>',
                         trackColor : '<?php echo pl_hashify( $track_color ) ?>',
                         scaleColor : '<?php echo pl_hashify( $scale_color ) ?>',
