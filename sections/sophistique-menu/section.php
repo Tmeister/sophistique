@@ -76,7 +76,17 @@ class TMSOMenu extends PageLinesSection {
 
 	function section_opts()
 	{
+		
+		$template = "<div>some HTML</div>";
+
+
 		$opts = array(
+			array(
+				'type' => 'template',
+				'key' => 'so_info_menu',
+				'template' => $template,
+				'title' => 'How to use'
+			),
 			array(
 				'type'  => 'image_upload',
 				'title' => 'Site Logotype',
