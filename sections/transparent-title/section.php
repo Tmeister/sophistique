@@ -27,15 +27,16 @@ class TMTransparenTitle extends PageLinesSection
 		if( is_front_page() && !pl_draft_mode()  ){
  			return;
  		}
+ 		$color = ( $this->opt('tmso_blog_title_color') ) ? pl_hashify($this->opt('tmso_blog_title_color')) : "#ffffff";
 	?>
 		
 	<div class="pl-content">
 		<?php if (!$this->is_blog()): ?>
-			<h1 class="pl-animation pl-appear">
+			<h1 class="pl-animation pl-appear" style="color: <?php echo $color ?> ">
 				<?php echo get_the_title($pagelines_ID); ?>
 			</h1>
 		<?php else: ?>
-			<h1 class="pl-animation pl-appear" data-sync="tmso_blog_title"><?php echo ( $this->opt('tmso_blog_title') )? $this->opt('tmso_blog_title') : 'Blog' ?></h1>
+			<h1 class="pl-animation pl-appear" data-sync="tmso_blog_title" style="color: <?php echo $color ?> "><?php echo ( $this->opt('tmso_blog_title') )? $this->opt('tmso_blog_title') : 'Blog' ?></h1>
 		<?php endif ?>
 	</div>
 	
@@ -48,14 +49,14 @@ class TMTransparenTitle extends PageLinesSection
 			array(
 				'key' => 'tmso_blog_title',
 				'type' 			=> 'text',
-				'label' 		=> __('Custom page title', $this->domain),
-				'default' => "Some Random Stuff"
+				'label' 		=> __('Blog posts title', $this->domain),
+				'help'	=> __('The setion use the pages titles as default text, this text will show in the Blog and Single Posts only.', $this->domain)
 			),
 			array(
 				'key' => 'tmso_blog_title_color',
 				'type' => 'color',
 				'default' => '#ffffff',
-				'label' => __('Blog title color', $this->domain)
+				'label' => __('Title color', $this->domain)
 			)
 		);
 

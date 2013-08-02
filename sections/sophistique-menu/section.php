@@ -82,6 +82,7 @@ class TMSOMenu extends PageLinesSection {
 				'title' => 'Site Logotype',
 				'key'   => 'so_logotype',
 				'label' => 'Please select the site logotype.',
+				'help'  => 'For better visualitation in a retina display devices, please use a 450x145px logo, the section will resize the logo according to the device.'
 	        ),
 	        array(
 				'type'  => 'text',
