@@ -15,8 +15,26 @@ class TMSOMenu extends PageLinesSection {
 		register_nav_menus( array( 'primary' => __( 'Primary Website Navigation', 'pagelines' ) ) );
 	}
 
-	function section_head(){
+	function section_styles(){
+		wp_enqueue_script( 'mobile-menu', $this->base_url . '/js/jquery.mobile-menu.js', array( 'jquery' ), '1.0',true );
+	}
 
+	function section_head(){
+		$label = ( $this->opt('so_mobile_menu') ) ? $this->opt('so_mobile_menu') : 'Navigate to...'
+	?>
+		<script>
+			jQuery(document).ready(function($) {
+				jQuery('.nav-sophis').tmMobileMenu({
+					label : '<?php echo $label ?>',
+					menuBg: 'transparent',
+					menuColor: '#000000',
+					subMenuBg: 'rgba(255, 255, 255, .2)',
+					subMenuItemHover: 'rgba(255, 255, 255, .2)',
+					subMenuItemColor: '#000000'
+				});
+			});
+		</script>
+	<?php
 	}
 
  	function section_template()
@@ -26,7 +44,9 @@ class TMSOMenu extends PageLinesSection {
 	    	<div class="pl-content">
 		    	<div class="row somenu-container">
 		    		<div class="span3">
-		    			<img src="<?php echo $this->opt('so_logotype') ?>" alt="" data-sync="so_logotype">
+		    			<a href="<?php echo get_site_url(); ?>" class="so_logo">
+		    				<img src="<?php echo $this->opt('so_logotype') ?>" alt="" data-sync="so_logotype">
+		    			</a>
 		    		</div>
 		    		<div class="span9">
 		    			<nav class="nav-sophis">
@@ -63,6 +83,13 @@ class TMSOMenu extends PageLinesSection {
 				'key'   => 'so_logotype',
 				'label' => 'Please select the site logotype.',
 	        ),
+	        array(
+				'type'  => 'text',
+				'title' => __('Mobile menu text', 'sophistique'),
+				'key'   => 'so_mobile_menu',
+				'label' => 'Please enter a text for mobile menu.',
+				'help'  => 'Default: Navigate to..'
+ 	        ),
 		);
 		return $opts;
 	}
