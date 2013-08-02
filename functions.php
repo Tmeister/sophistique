@@ -10,7 +10,7 @@ class Sophistique
 {
 	function __construct(){
 		add_filter( 'pagelines_foundry', array( &$this, 'google_fonts' ) );
-		$this->create_theme_options();
+		//$this->create_theme_options();
 
 	}
 
