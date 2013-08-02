@@ -48,7 +48,7 @@
 	                z-index: 999;
 	            }
 			}
-			&:last-child{
+			&:nth-last-child(-n+2){
 				ul.sub-menu,
 	        	ul.children{
 	        		ul.children,
@@ -101,8 +101,7 @@
 	                	font-size: 0.9em;
 	                	font-weight: normal;
 	                    color:@cMText;
-	                    min-width: 135px;
-	                    max-width: 135px;
+	                    min-width: 150px;
 	                    text-align: left;
 	                    padding: 5px 10px;
 	                    border-bottom: 1px solid #EEE;
