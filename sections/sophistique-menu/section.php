@@ -4,9 +4,9 @@ Section: Sophistique Menu
 Author: Enrique Chavez
 Author URI: http://tmeister.net
 Version: 1.0
-Description: Inline Description
+Description: Main navigation menu for Sophistique, show the site logo (Retina Ready) and a 3 levels menu, with a Mobile fallback.
 Class Name: TMSOMenu
-Filter: full-width
+Filter: full-width, nav
 */
 
 class TMSOMenu extends PageLinesSection {
@@ -76,17 +76,8 @@ class TMSOMenu extends PageLinesSection {
 
 	function section_opts()
 	{
-		
-		$template = "<div>some HTML</div>";
-
 
 		$opts = array(
-			array(
-				'type' => 'template',
-				'key' => 'so_info_menu',
-				'template' => $template,
-				'title' => 'How to use'
-			),
 			array(
 				'type'  => 'image_upload',
 				'title' => 'Site Logotype',

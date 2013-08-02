@@ -4,9 +4,9 @@ Section: Revolution Slider
 Author: Enrique Chavez
 Author URI: http://tmeister.net
 Version: 1.0
-Description: Inline Description
+Description: Port to the Great Revolution Slider jQuery Plugin for PageLines DMS, Add and animate anything you want: captions, images, videos. 
 Class Name: TMSORevolution
-Filter: full-width
+Filter: full-width, slider
 
 */
 
@@ -537,7 +537,7 @@ class TMSORevolution extends PageLinesSection
 	function post_type_slider_setup()
 	{
 		$args = array(
-			'label'          => __('Revolution slides', $this->domain),
+			'label'          => __('Rev. Slides', $this->domain),
 			'singular_label' => __('Slide', $this->domain),
 			'description'    => __('', $this->domain),
 			'taxonomies'     => array( $this->tax_id ),
@@ -561,7 +561,7 @@ class TMSORevolution extends PageLinesSection
 	function post_type_caption_setup()
 	{
 		$args = array(
-			'label'          => __('Revolution captions', $this->domain),
+			'label'          => __('Rev. Captions', $this->domain),
 			'singular_label' => __('Caption', $this->domain),
 			'description'    => __('', $this->domain),
 			'taxonomies'     => array( $this->tax_cap_id ),

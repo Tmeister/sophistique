@@ -4,28 +4,11 @@ Section: Contact Bar
 Author: Enrique Chavez
 Author URI: http://tmeister.net
 Version: 1.0
-Description: Inline Description
+Description: Contact Bar allow you to add information about the site/company/client in two rows, primary Phone and Email, also you can add the links to more than 20 social sites. 
 Class Name: SOContactBar
-Filter: full-width
+Filter: full-width, social 
 V3: true
 */
-
-/*
- * PageLines Headers API
- *
- *  Sections support standard WP file headers (http://codex.wordpress.org/File_Header) with these additions:
- *  -----------------------------------
- * 	 - Section: The name of your section.
- *	 - Class Name: Name of the section class goes here, has to match the class extending PageLinesSection.
- *	 - Cloning: (bool) Enable cloning features.
- *	 - Depends: If your section needs another section loaded first set its classname here.
- *	 - Workswith: Comma seperated list of template areas the section is allowed in.
- *	 - Failswith: Comma seperated list of template areas the section is NOT allowed in.
- *	 - Demo: Use this to point to a demo for this product.
- *	 - External: Use this to point to an external overview of the product
- *	 - Long: Add a full description, used on the actual store page on http://www.pagelines.com/store/
- *
- */
 
 class SOContactBar extends PageLinesSection {
 

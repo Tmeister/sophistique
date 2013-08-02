@@ -4,9 +4,9 @@ Section: Transparent Title
 Author: Enrique Chavez
 Author URI: http://tmeister.net
 Version: 1.0
-Description: Inline Description
+Description: A cool way to show the pages and posts titles for Sophistique.
 Class Name: TMTransparenTitle
-Filter: full-width
+Filter: full-width, misc
 */
 
 

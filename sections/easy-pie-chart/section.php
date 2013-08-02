@@ -5,9 +5,10 @@ Section: Easy Pie Chart
 Author: Enrique Chavez
 Author URI: http://tmeister.net
 Version: 1.0
-Description: Inline Description
+Description: Easy pie chart is a section to show simple pie charts for single values. These charts are highly customizable, very easy to implement, scale to the resolution of the display of the client to provide sharp charts even on retina displays
 Class Name: SOPieChart
 V3: true
+Filter: misc
 */
 
 /**

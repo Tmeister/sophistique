@@ -11,6 +11,7 @@ Workswith: templates, main
 External: http://tmeister.net/themes-and-sections/collapser/
 Demo: http://pagelines.tmeister.net/collapser/
 V3:true
+Filter: slider
 */
 
 /*
