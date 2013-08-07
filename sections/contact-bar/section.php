@@ -79,7 +79,7 @@ class SOContactBar extends PageLinesSection {
 				'opts' => array(
 					array(
 						'key' => 'tm_cb_first_icon',
-						'label'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://twitter.github.com/bootstrap/base-css.html#icons">bootstrap site.</a>', $this->domain ),
+						'label'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://docs.pagelines.com/tutorials/font-awesome">Font Awesome.</a>', $this->domain ),
 						'type'         	=> 'select_icon'
 					),
 					array(
@@ -97,7 +97,7 @@ class SOContactBar extends PageLinesSection {
 				'opts' => array(
 					array(
 						'key' => 'tm_cb_sec_icon',
-						'label'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://twitter.github.com/bootstrap/base-css.html#icons">bootstrap site.</a>', $this->domain ),
+						'label'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://docs.pagelines.com/tutorials/font-awesome">Font Awesome.</a>', $this->domain ),
 						'type'         	=> 'select_icon'
 					),
 					array(

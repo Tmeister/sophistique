@@ -40,7 +40,7 @@ class TMSORevolution extends PageLinesSection
 		wp_enqueue_script( 'trslider', $this->base_url . '/js/jquery.revolution.min.js', array( 'common-plugins' ), '1.0', true );
 	}
 
-	function section_head($clone_id){
+	function section_head(){
 		if( !is_front_page() && !pl_draft_mode() ){
  			return;
  		}
@@ -664,6 +664,4 @@ class TMSORevolution extends PageLinesSection
 			'easeInOutBounce'  => array('name' => __('InOutBounce', $this->domain))
 		);
 	}
-
-
 }
