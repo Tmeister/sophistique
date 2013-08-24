@@ -57,7 +57,7 @@ class TMSOMenu extends PageLinesSection {
 					                        'container' => 'div',
 					                        'container_class' => 'nav-sophis-holder clear',
 					                        'depth' => 3,
-					                        'menu' => $menu,
+					                        'menu' => 'so_primary',
 					                        'walker' => new Sophistique_walker
 					                    )
 					                );
