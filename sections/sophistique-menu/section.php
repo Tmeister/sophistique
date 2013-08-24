@@ -39,7 +39,6 @@ class TMSOMenu extends PageLinesSection {
 
  	function section_template()
  	{
-		$menu = ( $this->opt( 'tm_sm_menu' ) ) ? $this->opt( 'tm_sm_menu' ) : null;
 	    ?>
 	    	<div class="pl-content">
 		    	<div class="row somenu-container">
@@ -51,7 +50,7 @@ class TMSOMenu extends PageLinesSection {
 		    		<div class="span9">
 		    			<nav class="nav-sophis">
 				            <?php
-				            	if ( is_array( wp_get_nav_menu_items( $menu ) ) || has_nav_menu( 'primary' ) ) {
+				            	if ( has_nav_menu( 'primary' ) ) {
 					                wp_nav_menu(
 					                    array(
 					                        'menu_class'  => 'menu-sophis',
