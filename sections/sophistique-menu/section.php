@@ -12,7 +12,7 @@ Filter: full-width, nav
 class TMSOMenu extends PageLinesSection {
 
 	function section_persistent(){
-		register_nav_menus( array( 'primary' => __( 'Primary Website Navigation', 'pagelines' ) ) );
+		register_nav_menus( array( 'so_primary' => __( 'Sophistique Navigation', 'sophistique' ) ) );
 	}
 
 	function section_styles(){
@@ -50,7 +50,7 @@ class TMSOMenu extends PageLinesSection {
 		    		<div class="span9">
 		    			<nav class="nav-sophis">
 				            <?php
-				            	if ( has_nav_menu( 'primary' ) ) {
+				            	if ( has_nav_menu( 'so_primary' ) ) {
 					                wp_nav_menu(
 					                    array(
 					                        'menu_class'  => 'menu-sophis',
