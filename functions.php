@@ -1,5 +1,5 @@
 <?php
-	
+
 require_once( dirname(__FILE__) . '/setup.php' );
 
 /******************************************************************************
@@ -8,25 +8,71 @@ require_once( dirname(__FILE__) . '/setup.php' );
 
 class Sophistique
 {
-	function __construct(){
-		add_filter( 'pagelines_foundry', array( &$this, 'google_fonts' ) );
-		add_filter( 'pl_activate_url',   array( &$this, 'activation_url') );
-		$this->create_theme_options();
 
+	var $theme_name      = 'Sophistique';
+    var $theme_version   = '1.0';
+    var $theme_key;
+    var $chavezShop;
+
+	function __construct(){
+		$this->theme_key = strtolower( str_replace(' ', '_', $this->theme_name) );
+
+		add_filter( 'pagelines_foundry', 			array( &$this, 'google_fonts' ) );
+		add_filter( 'pl_activate_url',   			array( &$this, 'activation_url') );
+		add_filter( 'pl_sorted_settings_array', 	array( &$this, 'add_global_panel'));
+		add_filter( 'init', 						array( &$this, 'autoupdate') );
+		$this->create_theme_options();
 	}
+
+	function autoupdate(){
+		if ( !class_exists( 'chavezShopThemeVerifier' ) ) {
+			include( dirname( __FILE__ ) . '/inc/chavezShopThemeVerifier.php' );
+		}
+
+		$this->chavezShop = new chavezShopThemeVerifier( $this->theme_name, $this->theme_version, pl_setting( 'sophistique_license_key' ) );
+		$this->chavezShop->check_for_updates();
+	}
+
+	function add_global_panel($settings){
+        $valid = "";
+        if( get_option( $this->theme_key."_activated" ) ){
+            $valid = ( $this->chavezShop->check_license() ) ? ' - Your license is valid' : ' - Your license is invalid';
+        }
+
+        if( !isset( $settings['eChavez'] ) ){
+            $settings['eChavez'] = array(
+                'name' => 'Enrique Chavez Shop',
+                'icon' => 'icon-shopping-cart',
+                'opts' => array()
+            );
+        }
+
+        $collapser_opts = array(
+            'key'   => 'sophistique_license_key',
+            'type'  => 'text',
+            'title' => '<i class="icon-shopping-cart"></i> ' . __('Sophistique License Key', $this->domain) . $valid,
+            'label' => __('License Key', $this->domain),
+            'help'  => __('The theme is fully functional whitout a key license, this license is used only get access to autoupdates within your admin.', $this->domain)
+
+        );
+
+        array_push($settings['eChavez']['opts'], $collapser_opts);
+        return $settings;
+
+    }
 
 	/**
 	 * Adding a custom font from Google Fonts
-	 * @param type $thefoundry 
+	 * @param type $thefoundry
 	 * @return type
 	 */
 	function google_fonts( $thefoundry ) {
-		
+
 		if ( ! defined( 'PAGELINES_SETTINGS' ) )
 			return;
 
 		$fonts = $this->get_fonts();
-		return array_merge( $thefoundry, $fonts );	
+		return array_merge( $thefoundry, $fonts );
 	}
 
 	/**
@@ -72,7 +118,7 @@ class Sophistique
 						3. A popup will show, click on the \"Ok\" button.<br>
 						4. Once you've completed this action, you may want to publish these changes to your live site.<br>
 					</p>
-			</div>	
+			</div>
 		";
 
 		$step2 = "
@@ -90,7 +136,7 @@ class Sophistique
 						9. In the \"Assign Authors\" check the \"Download and import file attachments\".
 						10. Click Submit.
 					</p>
-			</div>	
+			</div>
 		";
 		$soptions = array();
 		$soptions['Sophistique'] = array(
@@ -98,6 +144,9 @@ class Sophistique
 		    'name'  => 'Sophistique',
 		    'icon'  => 'icon-pagelines',
 		    'opts'  => array(
+		    	array(
+
+		    	),
 		        array(
 		        	'key' => 'welcome',
 		        	'type' => 'template',
