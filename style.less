@@ -50,8 +50,8 @@ a{
 		.hentry-pad{
 			padding: 10px !important;
 		}
-	}	
-} 
+	}
+}
 
 .single-post,
 .section-wp-comments{
@@ -79,9 +79,9 @@ a{
 .ibox{
 	border-bottom: 5px solid #ccc;
 	background-color: #fff;
-	
+
 	&.top-aligned{
-		.transition( all 0.3s ease );	
+		.transition( all 0.3s ease );
 		&:hover{
 			border-bottom: 5px solid @pl-link;
 			.scale(1.05);
@@ -115,7 +115,7 @@ a{
 }
 
 #footer{
-	#translucent > .background( #000000 ,0.5); 
+	#translucent > .background( #000000 ,0.5);
 	border-top: 5px solid #000000;
 	color:#ffffff;
 	text-shadow:1px 1px 1px black;
@@ -140,7 +140,7 @@ a{
 		display: block;
 		height: 65px;
 	}
-	
+
 	.section-contact-bar{
 		display:none;
 	}
@@ -151,7 +151,7 @@ a{
 		left:0px;
 		position: relative;
 	}
-	
+
 	.section-sophistique-menu .nav-sophis-holder{
 		float: left !important;
 		width: 100%;
@@ -198,7 +198,7 @@ a{
 		padding: 10px;
 		display: block;
 	}
-	
+
 	#new-main-menu a span{
 		display: none !important;
 	}
@@ -260,6 +260,34 @@ a{
 	.section-revolution-slider{
 		.fullwidthbanner-container{
 			max-height:600px !important;
+		}
+	}
+}
+
+@media screen and (max-device-width: 1024px) and (orientation: landscape) {
+
+}
+
+
+
+@media screen and (max-device-width: 768px) and (orientation: portrait) {
+	.section-contact-bar{
+		.row{
+			.span3{
+				width: 250px;
+				margin-left: 20px;
+				display: block;
+				float:none;
+
+			}
+			.span6{
+				float: right;
+				width: 70%;
+				display: block;
+				position: absolute;
+				top: 20px;
+				left: 200px;
+			}
 		}
 	}
 }
