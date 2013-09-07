@@ -12,7 +12,6 @@ Filter: full-width, nav
 class TMSOMenu extends PageLinesSection {
 
 	function section_persistent(){
-		register_nav_menus( array( 'so_primary' => __( 'Sophistique Navigation', 'sophistique' ) ) );
 	}
 
 	function section_styles(){
@@ -50,14 +49,14 @@ class TMSOMenu extends PageLinesSection {
 		    		<div class="span9">
 		    			<nav class="nav-sophis">
 				            <?php
-				            	if ( has_nav_menu( 'so_primary' ) ) {
+				            	if ( $this->opt( 'so_main_menu' ) ) {
 					                wp_nav_menu(
 					                    array(
 					                        'menu_class'  => 'menu-sophis',
 					                        'container' => 'div',
 					                        'container_class' => 'nav-sophis-holder clear',
 					                        'depth' => 3,
-					                        'menu' => 'so_primary',
+					                        'menu' => $this->opt('so_main_menu'),
 					                        'walker' => new Sophistique_walker
 					                    )
 					                );
@@ -77,6 +76,12 @@ class TMSOMenu extends PageLinesSection {
 	{
 
 		$opts = array(
+			array(
+				'type'  => 'select_menu',
+				'title' => 'Main Menu',
+				'key'   => 'so_main_menu',
+				'label' => __('Select the main menu', 'sophistique')
+			),
 			array(
 				'type'  => 'image_upload',
 				'title' => 'Site Logotype',
