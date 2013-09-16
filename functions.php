@@ -9,7 +9,7 @@ require_once( dirname(__FILE__) . '/setup.php' );
 class Sophistique
 {
 
-	var $theme_name      = 'Sophistique';
+    var $theme_name      = 'Sophistique';
     var $theme_version   = '1.0';
     var $theme_key;
     var $chavezShop;
@@ -19,8 +19,8 @@ class Sophistique
 
 		add_filter( 'pagelines_foundry', 			array( &$this, 'google_fonts' ) );
 		add_filter( 'pl_activate_url',   			array( &$this, 'activation_url') );
-		add_filter( 'pl_sorted_settings_array', 	array( &$this, 'add_global_panel'));
-		add_filter( 'admin_init', 						array( &$this, 'autoupdate') );
+		//add_filter( 'pl_sorted_settings_array',                 array( &$this, 'add_global_panel'));
+		//add_filter( 'admin_init',                               array( &$this, 'autoupdate') );
 		$this->create_theme_options();
 	}
 
