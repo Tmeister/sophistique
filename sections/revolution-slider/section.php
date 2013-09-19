@@ -4,7 +4,7 @@ Section: Revolution Slider
 Author: Enrique Chavez
 Author URI: http://tmeister.net
 Version: 1.0
-Description: Port to the Great Revolution Slider jQuery Plugin for PageLines DMS, Add and animate anything you want: captions, images, videos. 
+Description: Port to the Great Revolution Slider jQuery Plugin for PageLines DMS, Add and animate anything you want: captions, images, videos.
 Class Name: TMSORevolution
 Filter: full-width, slider
 
@@ -14,7 +14,7 @@ Filter: full-width, slider
 class TMSORevolution extends PageLinesSection
 {
 
-	
+
 	var $domain               = 'tmRevolution';
 	/**************************************************************************
 	* SLIDES
@@ -44,6 +44,7 @@ class TMSORevolution extends PageLinesSection
 		if( !is_front_page() && !pl_draft_mode() ){
  			return;
  		}
+ 		$clone_id = null;
 		global $post, $pagelines_ID;
 		$oset            = array('post_id' => $pagelines_ID, 'clone_id' => $clone_id);
 		$tmrv_width      = ( $this->opt('tmrv_width', $oset) ) ? $this->opt('tmrv_width', $oset) : '900';
@@ -512,7 +513,7 @@ class TMSORevolution extends PageLinesSection
 				'type'       => 'check',
 				'label' => __('Disable shadow?', $this->domain),
 				'title'      => __('Shadow', $this->domain) ,
-				'help'   => __('Set whether to use the shadow of the slider', $this->domain) 
+				'help'   => __('Set whether to use the shadow of the slider', $this->domain)
 			),
 			array(
 				'key' => 'tmrv_touch',
