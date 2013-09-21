@@ -106,7 +106,7 @@ class Sophistique
 	function create_theme_options(){
 		$hi = "
 			<h4>Thanks for your purchase.</h4>
-			<div>Your new and shiny theme is ready to be used. <br/>Please be aware the instructions for a optimal setup.</div>
+			<div>Your new and shiny theme is ready to be used. <br/>Please be aware of the instructions for a optimal setup.</div>
 		";
 
 		$step1 = "
