@@ -50,9 +50,9 @@ class Sophistique
         $collapser_opts = array(
             'key'   => 'sophistique_license_key',
             'type'  => 'text',
-            'title' => '<i class="icon-shopping-cart"></i> ' . __('Sophistique License Key', $this->domain) . $valid,
-            'label' => __('License Key', $this->domain),
-            'help'  => __('The theme is fully functional whitout a key license, this license is used only get access to autoupdates within your admin.', $this->domain)
+            'title' => '<i class="icon-shopping-cart"></i> ' . __('Sophistique License Key', 'sophistique') . $valid,
+            'label' => __('License Key', 'sophistique'),
+            'help'  => __('The theme is fully functional whitout a key license, this license is used only get access to autoupdates within your admin.', 'sophistique')
 
         );
 
