@@ -4,9 +4,9 @@ Section: Contact Bar
 Author: Enrique Chavez
 Author URI: http://tmeister.net
 Version: 1.0
-Description: Contact Bar allow you to add information about the site/company/client in two rows, primary Phone and Email, also you can add the links to more than 20 social sites. 
+Description: Contact Bar allow you to add information about the site/company/client in two rows, primary Phone and Email, also you can add the links to more than 20 social sites.
 Class Name: SOContactBar
-Filter: full-width, social 
+Filter: full-width, social
 V3: true
 */
 
@@ -74,44 +74,44 @@ class SOContactBar extends PageLinesSection {
 			array(
 				'key' => 'tm_cb_phone',
 				'type' => 'multi',
-				'title'			=> __('Left Information Box', $this->domain),
-				'shortexp'		=> __('Please fill the follow fields.', $this->domain),
+				'title'			=> __('Left Information Box', 'sophistique'),
+				'shortexp'		=> __('Please fill the follow fields.', 'sophistique'),
 				'opts' => array(
 					array(
 						'key' => 'tm_cb_first_icon',
-						'label'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://docs.pagelines.com/tutorials/font-awesome">Font Awesome.</a>', $this->domain ),
+						'label'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://docs.pagelines.com/tutorials/font-awesome">Font Awesome.</a>', 'sophistique' ),
 						'type'         	=> 'select_icon'
 					),
 					array(
 						'key' => 'tm_cb_first_label',
  						'type' => 'text',
-						'label' 	=> __( 'Enter the information to show in the information text, eg. "Call Us: (001) 030-234-567-890"', $this->domain ),
+						'label' 	=> __( 'Enter the information to show in the information text, eg. "Call Us: (001) 030-234-567-890"', 'sophistique' ),
 					),
 				)
 			),
 			array(
 				'key' => 'tm_cb_email',
 				'type' => 'multi',
-				'title'			=> __('Right Information Box', $this->domain),
-				'shortexp'		=> __('Please fill the follow fields.', $this->domain),
+				'title'			=> __('Right Information Box', 'sophistique'),
+				'shortexp'		=> __('Please fill the follow fields.', 'sophistique'),
 				'opts' => array(
 					array(
 						'key' => 'tm_cb_sec_icon',
-						'label'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://docs.pagelines.com/tutorials/font-awesome">Font Awesome.</a>', $this->domain ),
+						'label'   	=> __( 'Select the icon to show beside the text - Icons Preview <a target="_blank" href="http://docs.pagelines.com/tutorials/font-awesome">Font Awesome.</a>', 'sophistique' ),
 						'type'         	=> 'select_icon'
 					),
 					array(
 						'key' => 'tm_cb_sec_label',
  						'type' => 'text',
-						'label' 	=> __( 'Enter the information to show in the information text, eg. "youremail@domain.com"', $this->domain ),
+						'label' 	=> __( 'Enter the information to show in the information text, eg. "youremail@domain.com"', 'sophistique' ),
 					),
 				)
 			),
 			array(
 				'key' => 'tm_cb_social',
 				'type'			=> 'multi',
-				'title'			=> __('Social Sites URL', $this->domain),
-				'label'		=> __('In the follow fields please, enter the social URL, if the URL field is empty, nothing will show.', $this->domain),
+				'title'			=> __('Social Sites URL - (include http://)', 'sophistique'),
+				'label'		=> __('In the follow fields please, enter the social URL, if the URL field is empty, nothing will show.', 'sophistique'),
 				'opts'	=> $this->get_social_fields()
 			),
 		);

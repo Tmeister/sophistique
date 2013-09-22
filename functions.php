@@ -113,7 +113,7 @@ class Sophistique
 			<h4>Import the configuration</h4>
 			<div>
 					<p>
-						1. Please click in the \"Import Config\" menu item in the left.<br>
+						1. Please click on the \"Import Config\" menu item on the left.<br>
 						2. Locate the yellow button \"Load Child  Theme Config\" and click on it.<br>
 						3. A popup will show, click on the \"Ok\" button.<br>
 						4. Once you've completed this action, you may want to publish these changes to your live site.<br>
@@ -133,7 +133,7 @@ class Sophistique
 						6. Activate plugin and Run Importer<br>
 						7. In the \"Choose a file from your computer: \" choose the file from the point 2.<br>
 						8. Click Upload file and import.<br>
-						9. In the \"Assign Authors\" check the \"Download and import file attachments\".
+						9. In the \"Assign Authors\" check the \"Download and import file attachments\".<br>
 						10. Click Submit.
 					</p>
 			</div>
@@ -144,9 +144,6 @@ class Sophistique
 		    'name'  => 'Sophistique',
 		    'icon'  => 'icon-pagelines',
 		    'opts'  => array(
-		    	array(
-
-		    	),
 		        array(
 		        	'key' => 'welcome',
 		        	'type' => 'template',

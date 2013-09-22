@@ -11,11 +11,11 @@ Filter: full-width, misc
 
 
 /**
-* 
+*
 */
 class TMTransparenTitle extends PageLinesSection
 {
-	
+
 	var $domain               = 'tmTransparentTitle';
 
 	function section_head(){
@@ -29,7 +29,7 @@ class TMTransparenTitle extends PageLinesSection
  		}
  		$color = ( $this->opt('tmso_blog_title_color') ) ? pl_hashify($this->opt('tmso_blog_title_color')) : "#ffffff";
 	?>
-		
+
 	<div class="pl-content">
 		<?php if (!$this->is_blog()): ?>
 			<h1 class="pl-animation pl-appear" style="color: <?php echo $color ?> ">
@@ -39,24 +39,24 @@ class TMTransparenTitle extends PageLinesSection
 			<h1 class="pl-animation pl-appear" data-sync="tmso_blog_title" style="color: <?php echo $color ?> "><?php echo ( $this->opt('tmso_blog_title') )? $this->opt('tmso_blog_title') : 'Blog' ?></h1>
 		<?php endif ?>
 	</div>
-	
-	<?php 
+
+	<?php
 	}
-	
+
 	function section_opts(){
 
 		$opts = array(
 			array(
 				'key' => 'tmso_blog_title',
 				'type' 			=> 'text',
-				'label' 		=> __('Blog posts title', $this->domain),
-				'help'	=> __('The setion use the pages titles as default text, this text will show in the Blog and Single Posts only.', $this->domain)
+				'label' 		=> __('Blog posts title', 'sophistique'),
+				'help'	=> __('The setion use the pages titles as default text, this text will show in the Blog and Single Posts only.', 'sophistique')
 			),
 			array(
 				'key' => 'tmso_blog_title_color',
 				'type' => 'color',
 				'default' => '#ffffff',
-				'label' => __('Title color', $this->domain)
+				'label' => __('Title color', 'sophistique')
 			)
 		);
 
