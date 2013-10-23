@@ -34,10 +34,10 @@ class SOPieChart extends PageLinesSection {
                    jQuery(".section-easy-pie-chart:in-viewport").each(function() {
                         createChart();
                         easyAnimation = true;
-                    });    
+                    });
                 });
 
-                
+
 
                 createChart = function(){
                     jQuery('.percentage').easyPieChart({
@@ -64,7 +64,7 @@ class SOPieChart extends PageLinesSection {
 	}
 
     function section_opts(){
-        $opts = array(
+        $options = array(
             array(
                 'key'           => 'box-setup',
                 'type'          => 'multi',
@@ -113,8 +113,42 @@ class SOPieChart extends PageLinesSection {
                 )
             )
         );
-        $opts = $this->create_box_settings($opts);
-        return $opts;
+
+        if( PL_CORE_VERSION > '1.0.4' ){
+            //unset( $options[1]['opts'][0] );
+            $options = $this->create_accordion($options);
+        }else{
+            $options = $this->create_box_settings($options);
+        }
+
+        return $options;
+    }
+
+    function create_accordion($options){
+        $box = array(
+            'key'       => 'pie_array',
+            'type'      => 'accordion',
+            'col'       => 2,
+            'title'     => 'Pie Box Settings',
+            'post_type' => 'Pie',
+            'opts'   => array(
+                array(
+                        'key' => 'percent',
+                        'type' => 'text',
+                        'label' => 'Percent to show 1-100',
+                    ),
+                    array(
+                        'key' => 'label',
+                        'type' => 'text',
+                        'label' => 'Label to show',
+                    ),
+            )
+        );
+
+        array_push($options, $box);
+        return $options;
+
+
     }
 
     function create_box_settings($opts){
@@ -148,24 +182,61 @@ class SOPieChart extends PageLinesSection {
 
 	function section_template(){
         $boxes = $this->opt('pie_boxes');
-        if( $boxes == false){
-        ?>
-            <div class="row">
-                <div class="span3 ?>">
-                    <div class="chart" id="chart-box-0">
-                        <div class="percentage" data-percent="95">
-                            <span>95</span>%
+
+        if(PL_CORE_VERSION > '1.0.4'){
+            $pie_array = $this->opt('pie_array');
+            $this->draw_pie($pie_array, $boxes);
+        }else{
+            $this->draw_old_pie($boxes);
+        }
+
+
+
+	}
+
+    function draw_pie($pie_array, $boxes){
+
+        $upgrade_mapping = array(
+            'percent'      => 'box_percent_%s',
+            'label'  => 'box_label_%s',
+
+        );
+        $pie_array = $this->upgrade_to_array_format_from_zero('pie_array', $pie_array, $upgrade_mapping, $boxes);
+
+
+        if( !is_array( $pie_array)){
+            echo setup_section_notify($this, __('Please start adding some info.', 'sophistique'));
+            return;
+        }
+
+
+
+        ob_start();
+    ?>
+        <div class="row">
+            <?php
+                $i = 1;
+                foreach ( $pie_array as $pie ): ?>
+                <div class="span<?php echo $this->opt('pie_span') ?>">
+                    <div class="chart" id="chart-box-<?php echo $i ?>">
+                        <div class="percentage" data-percent="<?php echo $pie['percent']?>">
+                            <span><?php echo $pie['percent']?></span>%
                         </div>
-                        <div class="pie-label">
-                            Sample data
+                        <div class="pie-label" data-sync="<?php echo 'pie_array_item'.$i++.'_label' ?>">
+                            <?php echo $pie['label']?>
                         </div>
                     </div>
                 </div>
-            </div>
-        <?php
-        }
-	?>
-        <div class="row">
+            <?php endforeach; ?>
+        </div>
+    <?php
+        ob_end_flush();
+    }
+
+    function draw_old_pie($boxes){
+        ob_start();
+    ?>
+         <div class="row">
             <?php for ($i=0; $i<$boxes; $i++): ?>
                 <div class="span<?php echo $this->opt('pie_span') ?>">
                     <div class="chart" id="chart-box-<?php echo $i ?>">
@@ -179,6 +250,48 @@ class SOPieChart extends PageLinesSection {
                 </div>
             <?php endfor ?>
         </div>
-	<?php
-	}
+    <?
+        ob_end_flush();
+    }
+
+    // Custom Upgrate my count start in 0 not in 1.
+    function upgrade_to_array_format_from_zero( $new_key, $array, $mapping, $number ){
+        $scopes = array('local', 'type', 'global');
+        if( ! $number )
+        {
+            return $array;
+        }
+
+        if( !$array || $array == 'false' || empty( $array ) )
+        {
+            for($i = 0; $i < $number; $i++)
+            {
+                // Set up new output for viewing
+                foreach( $mapping as $new_index_key => $old_option_key ){
+                    $old_settings[ $i ][ $new_index_key ] = $this->opt( sprintf($old_option_key, $i) );
+                }
+
+                // Load up old values using cascade
+                foreach( $scopes as $scope )
+                {
+                    foreach( $mapping as $new_index_key => $old_option_key ){
+                        $upgrade_array[$scope]['item'.($i+1)][ $new_index_key ] = $this->opt( sprintf($old_option_key, $i), array('scope' => $scope) );
+                    }
+                }
+            }
+            // Setup in new format & update
+            foreach($scopes as $scope)
+            {
+                $this->opt_update( $new_key, $upgrade_array[$scope], $scope );
+            }
+            return $old_settings;
+
+
+        } else{
+            return $array;
+        }
+    }
+
+
+
 }
