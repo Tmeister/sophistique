@@ -124,6 +124,7 @@ class TMSORevolution extends PageLinesSection
 							* CAPTIONS
 							**************************************************/
 							$caption_set = strlen( trim( plmeta('tmrv_caption_set', $io)) ) ? plmeta('tmrv_caption_set', $io) : 'null';
+							$caption_set = ( is_numeric( $caption_set ) ) ? get_term_by( 'id', $caption_set, $this->tax_cap_id)->slug : $caption_set;
 							$captions = $this->get_posts($this->custom_cap_post_type, $this->tax_cap_id, $caption_set);
 					?>
 						<li data-transition="<?php echo $transition ?>" data-slotamount="<?php echo $slots ?>" data-masterspeed="<?php echo $masterspeed ?>" <?php echo $link ?> <?php echo $link_target ?>>
@@ -194,13 +195,237 @@ class TMSORevolution extends PageLinesSection
 			'pages'  => $this->custom_post_type,
 			'fields' => array(
 				array(
-					'id' => 'tmrv_background_slider',
+					'id'   => 'tmrv_background_slider',
 					'name' => __('Slide Background', 'sophistique'),
-					'type' => 'image'
+					'type' => 'image',
+					'desc' => __('Please select a image to use as a slide background.', 'sophistique'),
+					'cols'  => 4
 
 				),
+				array(
+					'id'   => 'tmrv_transparent',
+					'name' => __('Transparent Backgound', 'sophistique'),
+					'type' => 'select',
+					'desc' => __('With this option youcan choose if you don\'t want to use a background in the slide. If a image is upload this setting is override and will use the image as a background', 'sophistique'),
+					'cols'  => 4,
+					'options' => array(
+						'off' => __('Use the image provided', 'sophistique'),
+						'on'  => __('Do not use a background', 'sophistique')
+					)
+				),
+				array(
+					'id' => 'tmrv_transition',
+					'name' => __('Slide transition effect', 'sophistique'),
+					'desc' => __('Every slide can have a different transition you can choose it in this option.', 'sophistique'),
+					'type' => 'select',
+					'cols' => 4,
+					'options' => array(
+						'boxslide'             => __('Box Slide', 'sophistique'),
+						'boxfade'              => __('Box Fade', 'sophistique'),
+						'slotzoom-horizontal'  => __('Slot Zoom Horizontal', 'sophistique'),
+						'slotslide-horizontal' => __('Slot Slide Horizontal', 'sophistique'),
+						'slotfade-horizontal'  => __('Slot Fade Horizontal', 'sophistique'),
+						'slotzoom-vertical'    => __('Slot Zoom Vertical', 'sophistique'),
+						'slotslide-vertical'   => __('Slot Slide Vertical', 'sophistique'),
+						'slotfade-vertical'    => __('Slot Fade Vertical', 'sophistique'),
+						'curtain-1'            => __('Curtain 1', 'sophistique'),
+						'curtain-2'            => __('Curtain 2', 'sophistique'),
+						'curtain-3'            => __('Curtain 3', 'sophistique'),
+						'slideleft'            => __('Slide Left', 'sophistique'),
+						'slideright'           => __('Slide Right', 'sophistique'),
+						'slideup'              => __('Slide Up', 'sophistique'),
+						'slidedown'            => __('Slide Down', 'sophistique'),
+						'fade'                 => __('Fade', 'sophistique'),
+						'random'               => __('Random', 'sophistique'),
+						'slidehorizontal'      => __('Slide Horizontal', 'sophistique'),
+						'slidevertical'        => __('Slide Vertical', 'sophistique'),
+						'papercut'             => __('Papercut', 'sophistique'),
+						'flyin'                => __('Flyin', 'sophistique'),
+						'turnoff'              => __('Turnoff', 'sophistique'),
+						'cube'                 => __('Cube', 'sophistique'),
+						'3dcurtain-vertical'   => __('3d Curtain Vertical', 'sophistique'),
+						'3dcurtain-horizontal' => __('3d Curtain Horizontal', 'sophistique'),
+					),
+				),
+				array(
+					'id' => 'tmrv_masterspeed',
+					'name' => __('Slide Transition Duration', 'sophistique') ,
+					'desc' => __('Transition speed.', 'sophistique'),
+					'type' => 'select',
+					'cols' => 4,
+					'default' => '300',
+					'options' => $this->getMasterCMBSpeedOptions()
+				),
+				array(
+					'id' => 'tmrv_slots',
+					'name' => __('Slot Amount', 'sophistique'),
+					'desc' => __('The number of slots or boxes the slide is divided into. If you use Box Fade, over 7 slots can be juggy. please use a number between 1 and 20', 'sophistique'),
+					'type' => 'text_small',
+					'cols' => 4,
+					'deafult' => '5'
+				),
+				array(
+					'id' => 'tmrv_caption_set',
+					'name' => __('Caption Set', 'sophistique'),
+					'desc' => __('Each slide can have several captions on it, choose a caption set to show on this slide.', 'sophistique'),
+					'type' => 'taxonomy_select',
+					'taxonomy' => $this->tax_cap_id
+				),
+
 			)
 		);
+
+		$meta_boxes[] = array(
+			'title'  => __('Revolution Caption Options', 'sophistique'),
+			'pages'  => $this->custom_cap_post_type,
+			'fields' => array(
+				array(
+					'id' => 'tmrv_caption_type',
+					'name' => __('Caption type', 'sophistique'),
+					'desc' => __('The "Caption" can be one of three types (Text, Image or Video) please, choose what type of caption you will use, be aware, if you choose "Caption text" only the text\'s field value will be use, if you choose "Caption image" only the image\'s field value will be use and so on.', 'sophistique'),
+					'type' => 'select',
+					'options' => array(
+						'text'  => __('Text', 'sophistique'),
+						'image' => __('Image', 'sophistique'),
+						'video' => __('Video', 'sophistique'),
+					)
+				),
+				array(
+					'id' => 'tmrv_text',
+					'name' => __('Caption Text', 'sophistique'),
+					'desc' => __('If you chose "Text" in the "Caption type" option, the value on this field will be use, regardless of the value of the image or video fields.', 'sophistique'),
+					'cols' => 4,
+					'type' => 'text'
+				),
+				array(
+					'id' => 'tmrv_image',
+					'name' => __('Caption Image'),
+					'desc' => __('If you chose "Image" in the "Caption type" option, the value on this field will be use, regardless of the value of the text or video fields.', 'sophistique'),
+					'type' => 'image',
+					'cols' => 4,
+				),
+				array(
+					'id' => 'tmrv_video',
+					'name' => __('Caption Video'),
+					'desc' => __('If you chose "Video" in the "Caption type" option, the value on this field will be use, regardless of the value of the text or image fields.', 'sophistique'),
+					'type' => 'textarea',
+					'cols' => 4
+				),
+				array(
+					'id' => 'tmrv_incomming_animation',
+					'name' => __('Incoming Animation', 'sophistique'),
+					'desc' => __('You can set a incoming animation for each of the caption.','sophistique'),
+					'cols' => 6,
+					'type' => 'select',
+					'options' => array(
+						'sft'          => __('Short from Top', 'sophistique'),
+						'sfb'          => __('Short from Bottom', 'sophistique'),
+						'sfr'          => __('Short from Right', 'sophistique'),
+						'sfl'          => __('Short from Left', 'sophistique'),
+						'lft'          => __('Long from Top', 'sophistique'),
+						'lfb'          => __('Long from Bottom', 'sophistique'),
+						'lfr'          => __('Long from Right', 'sophistique'),
+						'lfl'          => __('Long from Left', 'sophistique'),
+						'fade'         => __('Fading', 'sophistique'),
+						'randomrotate' => __('Fade in, Rotate from a Random position and Degree')
+					)
+				),
+				array(
+					'id' => 'tmrv_outgoing_animation',
+					'name' => __('Outgoing Animation', 'sophistique'),
+					'desc' => __('You can set a outgoing animation for each of the caption.','sophistique'),
+					'cols' => 6,
+					'type' => 'select',
+					'options' => array(
+						'stt'             => __('Short to Top', 'sophistique'),
+						'stb'             => __('Short to Bottom', 'sophistique'),
+						'str'             => __('Short to Right', 'sophistique'),
+						'stl'             => __('Short to Left', 'sophistique'),
+						'ltt'             => __('Long to Top', 'sophistique'),
+						'ltb'             => __('Long to Bottom', 'sophistique'),
+						'ltr'             => __('Long to Right', 'sophistique'),
+						'ltl'             => __('Long to Left', 'sophistique'),
+						'fadeout'         => __('Fading', 'sophistique'),
+						'randomrotateout' => __('Fade in, Rotate from a Random position and Degree', 'sophistique')
+					)
+
+				),
+				array(
+					'id' => 'tmrv_start_x',
+					'name' => __('Horizontal Position', 'sophistique'),
+					'desc' => __('The horizontal position based on the slider size, in the resposive view this position will be calculated.', 'sophistique'),
+					'cols' => 6,
+					'type' => 'text',
+				),
+				array(
+					'id' => 'tmrv_start_y',
+					'name' => __('Vertical Position', 'sophistique'),
+					'desc' => __('The Vertical position based on the slider size, in the resposive view this position will be calculated.', 'sophistique'),
+					'cols' => 6,
+					'type' => 'text',
+				),
+				array(
+					'id' => 'tmrv_c_style',
+					'name' => __('Caption style', 'sophistique'),
+					'description' => __('This option will be used only for text captions.', 'sophistique'),
+					'cols' => 12,
+					'type' => 'select',
+					'options' => array(
+						'big_white'       =>  __('Big White'),
+						'big_orange'      =>  __('Big Orange'),
+						'big_black'       =>  __('Big Black'),
+						'medium_white'    =>  __('Medium Grey'),
+						'medium_text'     =>  __('Medium White'),
+						'small_white'     =>  __('Small White'),
+						'large_text'      =>  __('Large White'),
+						'very_large_text' =>  __('Very Large White'),
+						'very_big_white'  =>  __('Very Big White'),
+						'very_big_black'  =>  __('Very Big Black'),
+					)
+				),
+				array(
+					'id' => 'tmrv_speed_intro',
+					'name' => __('Animation duration intro', 'sophistique'),
+					'desc' => __('Duration of the intro animation in milliseconds, Take note that 1 second is equal to 1000 milliseconds.', 'sophistique'),
+					'cols' => 4,
+					'type' => 'text'
+				),
+				array(
+					'id' => 'tmrv_speed_end',
+					'name' => __('Animation duration out', 'sophistique'),
+					'desc' => __('Duration of the out animation in milliseconds, Take note that 1 second is equal to 1000 milliseconds.', 'sophistique'),
+					'cols' => 4,
+					'type' => 'text'
+				),
+				array(
+					'id' => 'tmrv_start_after',
+					'name' => __('Time to wait to show this caption', 'sophistique'),
+					'desc' => __('How many time should this caption start to show in milliseconds, Take note that 1 second is equal to 1000 milliseconds.', 'sophistique'),
+					'cols' => 4,
+					'type' => 'text'
+				),
+				array(
+					'id' => 'tmrv_easing_intro',
+					'name' => __('Easing intro effect', 'sophistique'),
+					'desc' => __('You can set a different easing effect for each caption, default is linear', 'sophistique'),
+					'cols' => 6,
+					'type' => 'select',
+					'options' => $this->getCMBEasing()
+				),
+				array(
+					'id' => 'tmrv_easing_out',
+					'name' => __('Easing out effect', 'sophistique'),
+					'desc' => __('You can set a different easing effect for each caption, default is linear', 'sophistique'),
+					'cols' => 6,
+					'type' => 'select',
+					'options' => $this->getCMBEasing()
+				),
+
+			)
+		);
+
+
+
 
 		return $meta_boxes;
 	}
@@ -520,6 +745,7 @@ class TMSORevolution extends PageLinesSection
 				'help'		=> __('Default value is 10', 'sophistique'),
 				'count_start'	=> 2,
  				'count_number'	=> 20,
+ 				'col' => 2
 			),
 			array(
 				'key' => 'tmrv_time',
@@ -528,21 +754,24 @@ class TMSORevolution extends PageLinesSection
 				'title' 		=> __('Slide delay time', 'sophistique'),
 				'shortexp'		=> __('Default value is 8000', 'sophistique'),
 				'help'			=> __('The time one slide stays on the screen in Milliseconds.', 'sophistique'),
-				'opts'			=> $this->getMasterSpeedOptions(20, 1000)
+				'opts'			=> $this->getMasterSpeedOptions(20, 1000),
+				'col' => 2
 			),
 			array(
 				'key' => 'tmrv_shadow',
 				'type'       => 'check',
 				'label' => __('Disable shadow?', 'sophistique'),
 				'title'      => __('Shadow', 'sophistique') ,
-				'help'   => __('Set whether to use the shadow of the slider', 'sophistique')
+				'help'   => __('Set whether to use the shadow of the slider', 'sophistique'),
+				'col' => 3
 			),
 			array(
 				'key' => 'tmrv_touch',
 				'type'       => 'check',
 				'label' => __('Disable touch support for mobiles?', 'sophistique'),
 				'title'      => __('Touch Wipe', 'sophistique') ,
-				'help'   => __('Set whether to use the touch support for mobiles', 'sophistique')
+				'help'   => __('Set whether to use the touch support for mobiles', 'sophistique'),
+				'col' => 3
 
 			),
 			array(
@@ -550,7 +779,8 @@ class TMSORevolution extends PageLinesSection
 				'type'       => 'check',
 				'inputlabel' => __('Disable Pause on hover?', 'sophistique'),
 				'title'      => __('Pause on hover', 'sophistique') ,
-				'help'   => __('Set whether to use the pause on hover feature', 'sophistique')
+				'help'   => __('Set whether to use the pause on hover feature', 'sophistique'),
+				'col' => 3
 
 			)
 		);
@@ -650,6 +880,53 @@ class TMSORevolution extends PageLinesSection
 		}
 		return $out;
 	}
+
+	function getMasterCMBSpeedOptions($times = 20, $multiple = 100)
+	{
+		$out = array();
+		for ($i=2; $i <= $times ; $i++) {
+			$mill = $i * $multiple;
+			$out[(string)$mill] = $mill;
+		}
+		return $out;
+	}
+	function getCMBEasing()
+     {
+          return array(
+               'linear'   		  => __('Linear', 'sophistique'),
+               'easeEasOutBack'   => __('OutBack', 'sophistique'),
+               'easeInQuad'       => __('InQuad', 'sophistique'),
+               'easeOutQuad'      => __('OutQuad', 'sophistique'),
+               'easeInOutQuad'    => __('InOutQuad', 'sophistique'),
+               'easeInCubic'      => __('InCubic', 'sophistique'),
+               'easeOutCubic'     => __('OutCubic', 'sophistique'),
+               'easeInOutCubic'   => __('InOutCubic', 'sophistique'),
+               'easeInQuart'      => __('InQuart', 'sophistique'),
+               'easeOutQuart'     => __('OutQuart', 'sophistique'),
+               'easeInOutQuart'   => __('InOutQuart', 'sophistique'),
+               'easeInQuint'      => __('InQuint', 'sophistique'),
+               'easeOutQuint'     => __('OutQuint', 'sophistique'),
+               'easeInOutQuint'   => __('InOutQuint', 'sophistique'),
+               'easeInSine'       => __('InSine', 'sophistique'),
+               'easeOutSine'      => __('OutSine', 'sophistique'),
+               'easeInOutSine'    => __('InOutSine', 'sophistique'),
+               'easeInExpo'       => __('InExpo', 'sophistique'),
+               'easeOutExpo'      => __('OutExpo', 'sophistique'),
+               'easeInOutExpo'    => __('InOutExpo', 'sophistique'),
+               'easeInCirc'       => __('InCirc', 'sophistique'),
+               'easeOutCirc'      => __('OutCirc', 'sophistique'),
+               'easeInOutCirc'    => __('InOutCirc', 'sophistique'),
+               'easeInElastic'    => __('InElastic', 'sophistique'),
+               'easeOutElastic'   => __('OutElastic', 'sophistique'),
+               'easeInOutElastic' => __('InOutElastic', 'sophistique'),
+               'easeInBack'       => __('InBack', 'sophistique'),
+               'easeOutBack'      => __('OutBack', 'sophistique'),
+               'easeInOutBack'    => __('InOutBack', 'sophistique'),
+               'easeInBounce'     => __('InBounce', 'sophistique'),
+               'easeOutBounce'    => __('OutBounce', 'sophistique'),
+               'easeInOutBounce'  => __('InOutBounce', 'sophistique')
+          );
+     }
 
 	function getEasing()
 	{
