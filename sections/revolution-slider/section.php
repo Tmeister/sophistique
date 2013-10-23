@@ -545,7 +545,7 @@ class TMSORevolution extends PageLinesSection
 			'name' 		=> "Slider Options",
 			'icon' 		=> $this->icon,
 		);
-		//$pt_panel->register_tab( $pt_tab, $pt_tab_options );
+		$pt_panel->register_tab( $pt_tab, $pt_tab_options );
 
 		/**********************************************************************
 		* Captions meta options
@@ -705,7 +705,7 @@ class TMSORevolution extends PageLinesSection
 			'name' => "Caption Options",
 			'icon' => $this->icon,
 		);
-		//$pt_panel_cap->register_tab( $pt_tab_cap, $pt_tab_options_captions );
+		$pt_panel_cap->register_tab( $pt_tab_cap, $pt_tab_options_captions );
 
 	}
 
