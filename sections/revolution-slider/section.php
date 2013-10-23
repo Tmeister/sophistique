@@ -10,6 +10,9 @@ Filter: full-width, slider
 
 */
 
+if( ! function_exists('cmb_init') ){
+	require_once( 'cmb/custom-meta-boxes.php' );
+}
 
 class TMSORevolution extends PageLinesSection
 {
@@ -33,7 +36,8 @@ class TMSORevolution extends PageLinesSection
 	{
 		$this->post_type_slider_setup();
 		$this->post_type_caption_setup();
-		$this->post_meta_setup();
+		//$this->post_meta_setup();
+		( PL_CORE_VERSION > '1.0.4' ) ? add_filter( 'cmb_meta_boxes', array(&$this, 'meta_boxes') ) : $this->post_meta_setup();
 	}
 	function section_styles(){
 		wp_enqueue_script( 'common-plugins', $this->base_url . '/js/jquery.plugins.min.js', array( 'jquery' ), '1.0',true );
@@ -183,6 +187,24 @@ class TMSORevolution extends PageLinesSection
 
 	function after_section_template( $clone_id = null ){}
 
+	function meta_boxes( $meta_boxes ){
+
+		$meta_boxes[] = array(
+			'title'  => __('Slider Options', 'sophistique'),
+			'pages'  => $this->custom_post_type,
+			'fields' => array(
+				array(
+					'id' => 'tmrv_background_slider',
+					'name' => __('Slide Background', 'sophistique'),
+					'type' => 'image'
+
+				),
+			)
+		);
+
+		return $meta_boxes;
+	}
+
 	function post_meta_setup()
 	{
 		/**********************************************************************
@@ -298,7 +320,7 @@ class TMSORevolution extends PageLinesSection
 			'name' 		=> "Slider Options",
 			'icon' 		=> $this->icon,
 		);
-		$pt_panel->register_tab( $pt_tab, $pt_tab_options );
+		//$pt_panel->register_tab( $pt_tab, $pt_tab_options );
 
 		/**********************************************************************
 		* Captions meta options
@@ -454,11 +476,11 @@ class TMSORevolution extends PageLinesSection
 		);
 		$pt_panel_cap =  new PageLinesMetaPanel( $pt_panel_cap );
 		$pt_tab_cap = array(
-			'id' 		=> $this->id . 'cap-metatab',
-			'name' 		=> "Caption Options",
-			'icon' 		=> $this->icon,
+			'id'   => $this->id . 'cap-metatab',
+			'name' => "Caption Options",
+			'icon' => $this->icon,
 		);
-		$pt_panel_cap->register_tab( $pt_tab_cap, $pt_tab_options_captions );
+		//$pt_panel_cap->register_tab( $pt_tab_cap, $pt_tab_options_captions );
 
 	}
 

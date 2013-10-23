@@ -100,7 +100,7 @@ class Sophistique
 
 
 	function activation_url($url){
-		return $url = home_url() . '?tablink=Sophistique&tabsublink=welcome';
+		return home_url() . '?tablink=Sophistique&tabsublink=welcome';
 	}
 
 	function create_theme_options(){
@@ -154,13 +154,15 @@ class Sophistique
 		        	'key' => 'step1',
 		        	'type' => 'template',
 		        	'template' => $step1,
-		        	'title' => 'Step 1 - Child Theme configuration'
+		        	'title' => 'Step 1 - Child Theme configuration',
+		        	'col' => 2
 		        ),
 		        array(
 		        	'key' => 'step2',
 		        	'type' => 'template',
 		        	'template' => $step2,
-		        	'title' => 'Step 2 - Demo content'
+		        	'title' => 'Step 2 - Demo content',
+		        	'col' => 3
 		        )
 
 		    )
