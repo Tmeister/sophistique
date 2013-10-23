@@ -10,7 +10,7 @@ class Sophistique
 {
 
     var $theme_name      = 'Sophistique';
-    var $theme_version   = '1.0';
+    var $theme_version   = '1.1';
     var $theme_key;
     var $chavezShop;
 
