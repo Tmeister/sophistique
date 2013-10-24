@@ -1,35 +1,19 @@
 <?php
 /*
-Section: Collapser for Sophistique
+Section: Collapser
 Author: Enrique Chávez
 Author URI: http://tmeister.net
-Version: 2.0
+Version: 2.3
 Description: Collapser is a simple but handy section that provides a way to show small pieces of information using an accordion-nav type with a feature image on a side to stand out the content. With more that 15 options to play with.
 Class Name: CollapserTmSo
-Cloning: true
-Workswith: templates, main
-External: http://tmeister.net/themes-and-sections/collapser/
+External: http://enriquechavez.co/products/collapser/
 Demo: http://pagelines.tmeister.net/collapser/
-V3:true
-Filter: slider
+PageLines: true
 */
 
-/*
- * PageLines Headers API
- *
- *  Sections support standard WP file headers (http://codex.wordpress.org/File_Header) with these additions:
- *  -----------------------------------
- *   - Section: The name of your section.
- *   - Class Name: Name of the section class goes here, has to match the class extending PageLinesSection.
- *   - Cloning: (bool) Enable cloning features.
- *   - Depends: If your section needs another section loaded first set its classname here.
- *   - Workswith: Comma seperated list of template areas the section is allowed in.
- *   - Failswith: Comma seperated list of template areas the section is NOT allowed in.
- *   - Demo: Use this to point to a demo for this product.
- *   - External: Use this to point to an external overview of the product
- *   - Long: Add a full description, used on the actual store page on http://www.pagelines.com/store/
- *
- */
+if( ! function_exists('cmb_init') ){
+    require_once( 'cmb/custom-meta-boxes.php' );
+}
 
 class CollapserTmSo extends PageLinesSection
 {
@@ -37,11 +21,55 @@ class CollapserTmSo extends PageLinesSection
     var $domain           = 'tm_collapser';
     var $tax_id           = 'tm_collapser_sets';
     var $custom_post_type = 'tm_collapser_post';
+    var $section_name      = 'Collapser';
+    var $section_version   = '2.3';
+    var $section_key ;
+    var $chavezShop;
+
 
     function section_persistent()
     {
         $this->post_type_setup();
-        $this->post_meta_setup();
+        $this->section_key = strtolower( str_replace(' ', '_', $this->section_name) );
+        //$this->verify_license();
+        //add_filter('pl_sorted_settings_array', array(&$this, 'add_global_panel'));
+        ( PL_CORE_VERSION > '1.0.4' ) ? add_filter( 'cmb_meta_boxes', array(&$this, 'meta_boxes') ) : $this->post_meta_setup();
+
+    }
+
+     function verify_license(){
+        if( !class_exists( 'chavezShopVerifier' ) ) {
+            include( dirname( __FILE__ ) . '/inc/chavezshop_verifier.php' );
+        }
+        $this->chavezShop = new chavezShopVerifier( $this->section_name, $this->section_version, $this->opt('collapser_license_key') );
+    }
+
+    function add_global_panel($settings){
+        $valid = "";
+        if( get_option( $this->section_key."_activated" ) ){
+            $valid = ( $this->chavezShop->check_license() ) ? ' - Your license is valid' : ' - Your license is invalid';
+        }
+
+        if( !isset( $settings['eChavez'] ) ){
+            $settings['eChavez'] = array(
+                'name' => 'Enrique Chavez Shop',
+                'icon' => 'icon-shopping-cart',
+                'opts' => array()
+            );
+        }
+
+        $collapser_opts = array(
+            'key'   => 'collapser_license_key',
+            'type'  => 'text',
+            'title' => '<i class="icon-shopping-cart"></i> ' . __('Collapser License Key', 'collapser') . $valid,
+            'label' => __('License Key', 'collapser'),
+            'help'  => __('The section is fully functional whitout a key license, this license is used only get access to autoupdates within your admin.', 'collapser')
+
+        );
+
+        array_push($settings['eChavez']['opts'], $collapser_opts);
+        return $settings;
+
     }
 
     function dmshify(){
@@ -84,12 +112,13 @@ class CollapserTmSo extends PageLinesSection
         ** Styles
         **********************************************************************/
         $title_back             = $this->opt('tm_collapser_section_title_bg',$oset) ? pl_hashify( $this->opt('tm_collapser_section_title_bg',$oset)) : '#fff';
+        $title_color            = $this->opt('tm_collapser_title_color',$oset) ? pl_hashify($this->opt('tm_collapser_title_color',$oset)) : '#21759B';
         $item_back              = $this->opt('tm_collapser_item_background',$oset) ? pl_hashify($this->opt('tm_collapser_item_background',$oset)) : '#fff';
-        $item_back_hover        = $this->opt('tm_collapser_item_background_over',$oset) ? pl_hashify($this->opt('tm_collapser_item_background_over',$oset)) : pl_hashify( pl_link_color() );
-        $item_title_color       = $this->opt('tm_collapser_title_item_color',$oset) ? pl_hashify($this->opt('tm_collapser_title_item_color',$oset)) : pl_hashify( pl_text_color() );
-        $item_title_color_hover = $this->opt('tm_collapser_title_over_color',$oset) ? pl_hashify($this->opt('tm_collapser_title_over_color',$oset)) : pl_hashify( pl_text_color() );
+        $item_back_hover        = $this->opt('tm_collapser_item_background_over',$oset) ? pl_hashify($this->opt('tm_collapser_item_background_over',$oset)) : '#21759B';
+        $item_title_color       = $this->opt('tm_collapser_title_item_color',$oset) ? pl_hashify($this->opt('tm_collapser_title_item_color',$oset)) : '#000000';
+        $item_title_color_hover = $this->opt('tm_collapser_title_over_color',$oset) ? pl_hashify($this->opt('tm_collapser_title_over_color',$oset)) : '#000000';
         $border                 = $this->opt('tm_collapser_menu_border',$oset) ? pl_hashify($this->opt('tm_collapser_menu_border',$oset)) : '#eaeaea';
-        $content_color          = $this->opt('tm_collapser_text_color',$oset) ? pl_hashify($this->opt('tm_collapser_text_color',$oset)) : pl_hashify( pl_text_color() );
+        $content_color          = $this->opt('tm_collapser_text_color',$oset) ? pl_hashify($this->opt('tm_collapser_text_color',$oset)) : '#000000';
 
 
     ?>
@@ -120,7 +149,6 @@ class CollapserTmSo extends PageLinesSection
             });
         </script>
 
-
     <?php
     }
     function section_template($clone_id = null)
@@ -136,6 +164,7 @@ class CollapserTmSo extends PageLinesSection
 
         $limit             = ( $this->opt('tm_collapser_items', $oset) ) ? $this->opt('tm_collapser_items', $oset) : '5';
         $set               = ( $this->opt('tm_collapser_set', $oset) ) ? $this->opt('tm_collapser_set', $oset) : null;
+        $title             = ( $this->opt('tm_collapser_title', $oset) ) ? $this->opt('tm_collapser_title', $oset) : 'Collapser Section';
         $position          = ( $this->opt('tm_collapser_position', $oset) ) ? $this->opt('tm_collapser_position', $oset) : 'left';
         $read_more_text    = ( $this->opt('tm_collapser_read_more_text', $oset ) ) ? $this->opt('tm_collapser_read_more_text', $oset )  : 'Read More';
         $this->posts       = $this->get_posts($this->custom_post_type, $this->tax_id, $set, $limit);
@@ -148,7 +177,7 @@ class CollapserTmSo extends PageLinesSection
 
         $current = $this->posts[0];
         $inner_oset = array('post_id' => $current->ID);
-        $image = plmeta('tm_collapser_image', $inner_oset);
+        $image = $this->find_and_show_image($current->ID, true);
     ?>
         <div class="collapser-block<?php echo $clone_id?>">
             <div class="row" id="<?php echo $parent ?>-wrapper">
@@ -194,7 +223,7 @@ class CollapserTmSo extends PageLinesSection
         {
             setup_postdata( $post );
             $inner_oset = array('post_id' => $post->ID);
-            $image = plmeta('tm_collapser_image', $inner_oset);
+            $image = $this->find_and_show_image($post->ID, true);
             $link = plmeta('tm_collapser_url', $inner_oset);
             $readmore = plmeta('tm_collapser_read_more_text', $inner_oset);
             $morelink = ( strlen($link) ) ? '<p><a href="'.$link.'">'.$readmore.'</a></p>' : ' ';
@@ -217,6 +246,32 @@ class CollapserTmSo extends PageLinesSection
             $first = false;
         }
         return $out;
+    }
+
+    function meta_boxes( $meta_boxes ){
+        $meta_boxes[] = array(
+        'title' => 'Collapser Extra Data',
+        'pages' => $this->custom_post_type,
+        'fields' => array(
+            array(
+                'id'   => 'tm_collapser_image',
+                'name' => __( 'Collapser Post Image', 'sophistique'),
+                'type' => 'image'
+            ),
+            array(
+                'id'   => 'tm_collapser_url',
+                'name' => __( 'Target URL (Optional)', 'sophistique'),
+                'type' => 'text_url'
+            ),
+            array(
+                'id'   => 'tm_collapser_read_more_text',
+                'name' => __( 'Link title (Optional)', 'sophistique'),
+                'type' => 'text'
+            )
+        )
+    );
+
+    return $meta_boxes;
     }
 
     function post_meta_setup(){
@@ -296,10 +351,22 @@ class CollapserTmSo extends PageLinesSection
                 echo get_the_term_list($post->ID, $this->tax_id, '', ', ','');
                 break;
             case 'collapser_media':
-                echo '<img src="'.m_pagelines('tm_collapser_image', $post->ID).'" style="max-width: 300px; max-height: 100px" />';
+                echo $this->find_and_show_image($post->ID);
                 break;
         }
     }
+
+    function find_and_show_image($postID, $return_path = false){
+        $image = get_post_meta($postID, 'tm_collapser_image', true);
+        if( strstr($image, 'http') ){
+            $image_url = $image;
+        }else{
+            $image_url = wp_get_attachment_url( $image );
+        }
+        return ( !$return_path ) ? '<img src="'.$image_url.'" style="max-width: 300px; max-height: 100px" />' : $image_url;
+    }
+
+
 
     function section_optionator( $settings )
     {
@@ -327,7 +394,8 @@ class CollapserTmSo extends PageLinesSection
                 'type' => 'check',
                 'inputlabel' => __('Start with the first tab closed', 'sophistique'),
                 'title' => __('First tab closed'),
-                'shortexp' => _('Check if you don\'t want that the first tab shows open')
+                'shortexp' => _('Check if you don\'t want that the first tab shows open'),
+                'col' => 2
             ),
             'tm_collapser_position' => array(
                 'title'         => 'Thumbnail position',
@@ -339,39 +407,9 @@ class CollapserTmSo extends PageLinesSection
                 ),
                 'inputlabel'    => __( 'Position', 'sophistique' ),
                 'shortexp'      => 'Default value: Left',
-                'exp'           => 'Indicates where the thumbnail images will be displayed. If you want to use a full  width tabs use the "Do not use thumbnails" option'
+                'exp'           => 'Indicates where the thumbnail images will be displayed. If you want to use a full  width tabs use the "Do not use thumbnails" option',
+                'col' => 2
             ),
-
-            /*'tm_collapser_item_background'  => array(
-                'inputlabel'    => __( 'Item highlight', 'sophistique' ),
-                'type' => 'colorpicker',
-                'title' => __( 'Item highlight', 'sophistique' ),
-                'default' => '#FFFFFF'
-            ),
-            'tm_collapser_item_background_over' => array(
-                'inputlabel'    => __( 'Item highlight hover', 'sophistique' ),
-                'type' => 'colorpicker',
-                'title' => __( 'Item highlight hover', 'sophistique' ),
-                'default' => pl_hashify( pl_link_color() )
-            ),
-            'tm_collapser_title_item_color' => array(
-                'inputlabel'    => __( 'Item Title Text', 'sophistique' ),
-                'type' => 'colorpicker',
-                'title' => __( 'Item Title Text', 'sophistique' ),
-                'default' => pl_hashify( pl_text_color() )
-            ),
-            'tm_collapser_title_over_color' => array(
-                'inputlabel'    => __( 'Item Title Text Hover', 'sophistique' ),
-                'type' => 'colorpicker',
-                'title' => __( 'Item Title Text Hover', 'sophistique' ),
-                'default' => pl_hashify( pl_text_color() )
-            ),
-            'tm_collapser_text_color'   => array(
-                'inputlabel'    => __( 'Content Text', 'sophistique' ),
-                'type' => 'colorpicker',
-                'title' => __( 'Content Text', 'sophistique' ),
-                'default' => pl_hashify( pl_text_color() )
-            )*/
         );
 
         $settings = array(
@@ -404,3 +442,4 @@ class CollapserTmSo extends PageLinesSection
     }
 
 } /* End of section class - No closing php tag needed */
+
