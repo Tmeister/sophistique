@@ -27,7 +27,7 @@ function cmb_sample_metaboxes( array $meta_boxes ) {
 		array( 'id' => 'field-10',  'name' => 'Code textarea field', 'type' => 'textarea_code' ),
 
 		array( 'id' => 'field-11', 'name' => 'File field', 'type' => 'file', 'file_type' => 'image', 'repeatable' => 1, 'sortable' => 1 ),
-		array( 'id' => 'field-12', 'name' => 'Image upload field', 'type' => 'image', 'repeatable' => false ),
+		array( 'id' => 'field-12', 'name' => 'Image upload field', 'type' => 'image', 'repeatable' => true, 'show_size' => true ),
 		
 		array( 'id' => 'field-13', 'name' => 'Select field', 'type' => 'select', 'options' => array( 'option-1' => 'Option 1', 'option-2' => 'Option 2', 'option-3' => 'Option 3' ), 'allow_none' => true ),
 		array( 'id' => 'field-14', 'name' => 'Select field', 'type' => 'select', 'options' => array( 'option-1' => 'Option 1', 'option-2' => 'Option 2', 'option-3' => 'Option 3' ), 'multiple' => true ),
@@ -43,7 +43,6 @@ function cmb_sample_metaboxes( array $meta_boxes ) {
 		array( 'id' => 'field-21', 'name' => 'Date & Time (unix) input field', 'type' => 'datetime_unix' ),
 		
 		array( 'id' => 'field-22', 'name' => 'Color', 'type' => 'colorpicker' ),
-		array( 'id' => 'field-23', 'name' => 'Oembed field', 'type' => 'oembed' ),
 
 		array( 'id' => 'field-24', 'name' => 'Title Field', 'type' => 'title' ),
 	
@@ -89,11 +88,12 @@ function cmb_sample_metaboxes( array $meta_boxes ) {
 		'fields' => array(
 			array( 
 				'id' => 'gp', 
-				'name' => 'Repeatable Group', 
+				'name' => 'My Repeatable Group', 
 				'type' => 'group', 
 				'repeatable' => true,
 				'sortable' => true,
-				'fields' => $group_fields
+				'fields' => $group_fields,
+				'desc' => 'This is the group description.'
 			)
 		)
 	);

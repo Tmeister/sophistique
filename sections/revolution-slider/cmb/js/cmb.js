@@ -15,52 +15,51 @@ var CMB = {
 
 	init : function() {
 
-		var _this = this;
-
-		jQuery(document).ready( function () {
-
 			jQuery( '.field.repeatable' ).each( function() {
-				_this.isMaxFields( jQuery(this) );
+			CMB.isMaxFields( jQuery(this) );
 			} );
 
-			jQuery( document ).on( 'click', '.delete-field', function(e) {
-				e.preventDefault();
-				_this.deleteField( jQuery( this ).closest('.field-item' ) );
-			} );
+		// Unbind & Re-bind all CMB events to prevent duplicates.
+		jQuery(document).unbind( 'click.CMB' );
+		jQuery(document).on( 'click.CMB', '.cmb-delete-field', CMB.deleteField );
+		jQuery(document).on( 'click.CMB', '.repeat-field', CMB.repeatField );
 
-			jQuery( document ).on( 'click', '.repeat-field', function(e) {
-				e.preventDefault();
-				_this.repeatField( jQuery( this ).closest('.field' ) );
-			} );
+		// When toggling the display of the meta box container - reinitialize
+		jQuery(document).on( 'click.CMB', '.handlediv', CMB.init )
 
-			_this.doneInit();
-
-		} );
+		CMB.doneInit();
 
 	},
 
-	repeatField : function( field ) {
+	repeatField : function( e ) {
 
-	    var _this, templateField, newT, field, index, attr;
+	    var templateField, newT, field, index, attr;
 
-	    _this = this;
+	    field = jQuery( this ).closest('.field' );					
 
-		if ( _this.isMaxFields( field, 1 ) )
+		e.preventDefault();
+		jQuery(this).blur();
+
+		if ( CMB.isMaxFields( field, 1 ) )
 			return;
 
-	    templateField = field.children('.field-item.hidden');
+	    templateField = field.children( '.field-item.hidden' );
 
 	    newT = templateField.clone();
-	    newT.removeClass('hidden');
-	    newT.find('input[type!="button"]').not('[readonly]').val('');
+	    newT.removeClass( 'hidden' );
+	    
+	    var excludeInputTypes = '[type=submit],[type=button],[type=checkbox],[type=radio],[readonly]';
+	    newT.find( 'input' ).not( excludeInputTypes ).val( '' );
+
 	    newT.find( '.cmb_upload_status' ).html('');
+
 	    newT.insertBefore( templateField );
 
 	    // Recalculate group ids & update the name fields..
 		index = 0;
 		attr  = ['id','name','for','data-id','data-name'];
 
-		field.children('.field-item').not( templateField ).each( function() {
+		field.children( '.field-item' ).not( templateField ).each( function() {
 
 			var search  = field.hasClass( 'CMB_Group_Field' ) ? /cmb-group-(\d|x)*/g : /cmb-field-(\d|x)*/g;
 			var replace = field.hasClass( 'CMB_Group_Field' ) ? 'cmb-group-' + index : 'cmb-field-' + index;
@@ -77,17 +76,23 @@ var CMB = {
 
 		} );
 
-	    _this.clonedField( newT );
+	    CMB.clonedField( newT );
 
 	},
 
-	deleteField : function( fieldItem  ) {
+	deleteField : function( e ) {
 
-		var field = fieldItem.closest( '.field' );
+		var fieldItem, field;
 
-		this.isMaxFields( field, -1 );
+		e.preventDefault();
+		jQuery(this).blur();
+		
+		fieldItem = jQuery( this ).closest('.field-item' );
+		field     = fieldItem.closest( '.field' );
 
-		this.deletedField( fieldItem );
+		CMB.isMaxFields( field, -1 );
+		CMB.deletedField( fieldItem );
+
 		fieldItem.remove();
 
 	},
@@ -112,8 +117,7 @@ var CMB = {
 		max    = field.attr( 'data-rep-max' );
 
 		// Show all the remove field buttons.
-		field.find( '> .field-item > .cmb_element > .ui-state-default > .delete-field' ).show();
-		field.find( '> .field-item > .group > .cmb_element > .ui-state-default > .delete-field' ).show();
+		field.find( '> .field-item > .cmb-delete-field, > .field-item > .group > .cmb-delete-field' ).show();
 
 		if ( typeof( max ) === 'undefined' )
 			return false;
@@ -142,7 +146,7 @@ var CMB = {
 	doneInit: function() {
 
 		var _this = this,
-			callbacks = _this._initCallbacks;
+			callbacks = CMB._initCallbacks;
 
 		if ( callbacks ) {
 			for ( var a = 0; a < callbacks.length; a++) {
@@ -169,13 +173,11 @@ var CMB = {
 	 */
 	clonedField: function( el ) {
 
-		var _this = this
-
 		// also check child elements
 		el.add( el.find( 'div[data-class]' ) ).each( function( i, el ) {
 
 			el = jQuery( el )
-			var callbacks = _this._clonedFieldCallbacks[el.attr( 'data-class') ]
+			var callbacks = CMB._clonedFieldCallbacks[el.attr( 'data-class') ]
 
 			if ( callbacks )
 				for ( var a = 0; a < callbacks.length; a++ )
@@ -201,13 +203,11 @@ var CMB = {
 	 */
 	deletedField: function( el ) {
 
-		var _this = this;
-
 		// also check child elements
 		el.add( el.find( 'div[data-class]' ) ).each( function(i, el) {
 
 			el = jQuery( el )
-			var callbacks = _this._deletedFieldCallbacks[el.attr( 'data-class') ]
+			var callbacks = CMB._deletedFieldCallbacks[el.attr( 'data-class') ]
 
 			if ( callbacks )
 				for ( var a = 0; a < callbacks.length; a++ )

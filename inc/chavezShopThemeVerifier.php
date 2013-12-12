@@ -5,7 +5,7 @@
 */
 class chavezShopThemeVerifier
 {
-    var $remote_site = 'http://chavezshop.staging.wpengine.com/';
+    var $remote_site = 'http://enriquechavez.co/';
     var $theme_version;
     var $theme_name;
     var $license_key;
