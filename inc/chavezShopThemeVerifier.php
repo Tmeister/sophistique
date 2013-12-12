@@ -75,7 +75,6 @@ class chavezShopThemeVerifier
     }
 
     function active_license(){
-        var_dump('activando Licencia');
         $api_params = array(
             'edd_action'=> 'activate_license',
             'license'   => $this->license_key,
