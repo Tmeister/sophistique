@@ -108,12 +108,21 @@ class CMB_Meta_Box {
 
 	function enqueue_scripts() {
 
+		wp_enqueue_script( 'cmb-scripts', trailingslashit( CMB_URL ) . 'js/cmb.js', array( 'jquery' ) );
+
 		foreach ( $this->fields as $field )
 			$field->enqueue_scripts();
 
 	}
 
 	function enqueue_styles() {
+
+		$suffix = CMB_DEV ? '' : '.min';
+
+		if ( version_compare( get_bloginfo( 'version' ), '3.7', '>' ) )
+			wp_enqueue_style( 'cmb-styles', trailingslashit( CMB_URL ) . "css/dist/cmb$suffix.css" );
+		else
+			wp_enqueue_style( 'cmb-styles', trailingslashit( CMB_URL ) . 'css/legacy.css' );
 
 		foreach ( $this->fields as $field )
 			$field->enqueue_styles();
@@ -217,7 +226,7 @@ class CMB_Meta_Box {
 	 */
 	static function layout_fields( array $fields ) { ?>
 
-		<table class="form-table cmb_metabox">
+		<div class="cmb_metabox">
 
 			<?php $current_colspan = 0;
 
@@ -225,7 +234,7 @@ class CMB_Meta_Box {
 
 				if ( $current_colspan == 0 ) : ?>
 
-					<tr>
+					<div class="cmb-row">
 
 				<?php endif;
 
@@ -249,25 +258,27 @@ class CMB_Meta_Box {
 
 				?>
 
-				<td style="width: <?php esc_attr_e( $field->args['cols'] / 12 * 100 ); ?>%" colspan="<?php esc_attr_e( $field->args['cols'] ); ?>">
-					<div <?php echo $classes; ?> <?php echo $attrs; ?>>
-						<?php $field->display(); ?>
-					</div>
-				</td>
+				<div class="cmb-cell-<?php echo intval( $field->args['cols'] ); ?>">
+					
+						<div <?php echo $classes; ?> <?php echo $attrs; ?>>
+							<?php $field->display(); ?>
+						</div>
 
-				<?php if ( $current_colspan == 12 ) :
+						<input type="hidden" name="_cmb_present_<?php esc_attr_e( $field->id ); ?>" value="1" />
+
+				</div>
+
+				<?php if ( $current_colspan == 12 || $field === end( $fields ) ) :
 
 					$current_colspan = 0; ?>
 
-					</tr>
+					</div><!-- .cmb-row -->
 
 				<?php endif; ?>
 
-				<input type="hidden" name="_cmb_present_<?php esc_attr_e( $field->id ); ?>" value="1" />
-
 			<?php endforeach; ?>
-
-		</table>
+			
+		</div>
 
 	<?php }
 
