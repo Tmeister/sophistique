@@ -148,12 +148,17 @@ class Sophistique_walker extends Walker_Nav_Menu
 			$description = $append = $prepend = "";
 		}
 
-		$item_output = $args->before;
+		$before = ( !isset($args) ) ? $args->before : false;
+		$after = ( !isset($args) ) ? $args->after : false;
+		$lbefore = ( !isset($args) ) ? $args->link_before : false;
+		$lafter = ( !isset($args) ) ? $args->link_after : false;
+
+		$item_output = $before;
 		$item_output .= '<a'. $attributes .'>';
-		$item_output .= $args->link_before .apply_filters( 'the_title', $item->title, $item->ID );
-		$item_output .= $description.$args->link_after;
+		$item_output .= $lbefore . apply_filters( 'the_title', $item->title, $item->ID );
+		$item_output .= $description.$lafter;
 		$item_output .= '</a>';
-		$item_output .= $args->after;
+		$item_output .= $lafter;
 
 		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}
