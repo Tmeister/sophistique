@@ -119,7 +119,7 @@ class TMSORevolution extends PageLinesSection
 							$slots       = ( plmeta('tmrv_slots', $io ) )  ? plmeta('tmrv_slots', $io) : '1';
 							$use_image   = (plmeta('tmrv_transparent', $io) == 'off') ? true : false;
 							$image  	 = $this->find_and_show_image( $post->ID, 'tmrv_background_slider', true);
-							$img_src     = ( $image || ($use_image && $image ) ) ? $image : '/wp-content/themes/sophistique/images/transparent.png';
+							$img_src     = ( $image || ($use_image && $image ) ) ? $image : '';
 							$masterspeed = ( plmeta('tmrv_masterspeed', $io ) )  ? plmeta('tmrv_masterspeed', $io) : '300';
 							$link        = (plmeta('tmrv_link', $io)) ? 'data-link="' . plmeta('tmrv_link', $io). '"' : '';
 							$link_target = (plmeta('tmrv_link_target', $io)) ? 'data-target="'. plmeta('tmrv_link_target', $io) . '"' : '';
