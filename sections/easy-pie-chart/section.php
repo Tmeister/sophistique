@@ -31,7 +31,7 @@ class SOPieChart extends PageLinesSection {
                 var easyAnimation = false;
                 $(window).bind("scroll", function(event) {
                    if( easyAnimation){return;}
-                   jQuery(".section-easy-pie-chart:in-viewport").each(function() {
+                   jQuery(".section-easy-pie-chart").each(function() {
                         createChart();
                         easyAnimation = true;
                     });
